@@ -1,0 +1,44 @@
+# Visual Studio cache and settings
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+Debug/
+Release/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# Temporary files
+*.log
+*.tlog
+*.vsidx
+*.ipch
+*.tmp
+
+# C++ specific
+*.obj
+*.pch
+*.pdb
+*.idb
+*.ilk
+*.exp
+*.lib
+
+# Others
+*.exe
+*.dll
+*.cache
+*.opendb
+*.VC.db
+*.VC.VC.opendb
+
+# Ignore NuGet packages
+*.nupkg
+packages/
