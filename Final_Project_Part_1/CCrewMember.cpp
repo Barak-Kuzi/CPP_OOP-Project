@@ -1,5 +1,6 @@
-#include "CCrewMember.h"
 #include <iostream>
+#include "CCrewMember.h"
+
 using namespace std;
 
 CCrewMember::CCrewMember(string name, CAddress address, int airTimeMinutes)
@@ -43,7 +44,10 @@ int CCrewMember::getAirTimeMinutes() const
 
 void CCrewMember::setName(string name)
 {
-    this->name = name;
+    if (!name.empty())
+    {
+        this->name = name;
+    }
 }
 
 void CCrewMember::setAddress(CAddress address)

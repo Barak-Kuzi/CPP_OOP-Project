@@ -1,5 +1,6 @@
-#include "CFlightInfo.h"
 #include <iostream>
+#include "CFlightInfo.h"
+
 using namespace std;
 
 CFlightInfo::CFlightInfo(string destination, int flightNumber, int flightTimeMinutes, int flightDistanceKm)

@@ -1,15 +1,16 @@
-#include "CFlightCompany.h"
 #include <iostream>
+#include "CFlightCompany.h"
+
 using namespace std;
 
 CFlightCompany::CFlightCompany(string companyName)
 {
-    this->companyName = companyName;
+    SetName(companyName);
 }
 
 CFlightCompany::CFlightCompany(const CFlightCompany& other)
 {
-    companyName = other.companyName;
+    SetName(other.companyName);
 }
 
 CFlightCompany::~CFlightCompany()
@@ -23,7 +24,10 @@ string CFlightCompany::getCompanyName() const
 
 void CFlightCompany::SetName(string name)
 {
-    this->companyName = name;
+    if (!name.empty())
+    {
+        this->companyName = name;
+    }
 }
 
 void CFlightCompany::Print() const

@@ -10,7 +10,6 @@ private:
     string city;
     string street;
     int houseNumber;
-    void init(int houseNumber, string street, string city = "Tel Aviv");
 
 public:
     CAddress(int houseNumber, string street, string city = "Tel Aviv");

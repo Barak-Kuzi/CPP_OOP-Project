@@ -1,20 +1,13 @@
 #include "CAddress.h"
 
-void CAddress::init(int houseNumber, string street, string city)
-{
-    this->city = city;
-    this->street = street;
-    this->houseNumber = (houseNumber > 0) ? houseNumber : 0;
-}
-
 CAddress::CAddress(int houseNumber, string street, string city)
 {
-    init(houseNumber, street, city);
+    UpdateAddress(city, street, houseNumber);
 }
 
 CAddress::CAddress(const CAddress& other)
 {
-    init(other.houseNumber, other.street, other.city);
+    UpdateAddress(other.city, other.street, other.houseNumber);
 }
 
 CAddress::~CAddress()
@@ -38,9 +31,17 @@ int CAddress::getHouseNumber() const
 
 void CAddress::UpdateAddress(string city, string street, int houseNumber)
 {
-    this->city = city;
-    this->street = street;
-    this->houseNumber = houseNumber;
+    if (!city.empty())
+    {
+        this->city = city;
+    }
+
+    if (!street.empty())
+    {
+        this->street = street;
+    }
+    
+    this->houseNumber = (houseNumber > 0) ? houseNumber : 0;
 }
 
 void CAddress::Print() const
