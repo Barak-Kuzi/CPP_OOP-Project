@@ -44,7 +44,7 @@ void CFlightInfo::setFlightNumber(int flightNumber)
 
 void CFlightInfo::SetDest(string destination)
 {
-    this->destination = destination;
+    this->destination = !destination.empty() ? destination : "";
 }
 
 void CFlightInfo::setFlightTimeMinutes(int flightTimeMinutes)

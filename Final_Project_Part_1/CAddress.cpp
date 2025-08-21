@@ -31,16 +31,11 @@ int CAddress::getHouseNumber() const
 
 void CAddress::UpdateAddress(string city, string street, int houseNumber)
 {
-    if (!city.empty())
-    {
-        this->city = city;
-    }
 
-    if (!street.empty())
-    {
-        this->street = street;
-    }
-    
+    this->city = !city.empty() ? city : "";
+
+    this->street = !street.empty() ? street : "";
+
     this->houseNumber = (houseNumber > 0) ? houseNumber : 0;
 }
 

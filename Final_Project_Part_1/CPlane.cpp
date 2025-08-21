@@ -48,5 +48,5 @@ void CPlane::init(int serialNumber, int seatsNumber, string modelName)
 {
     this->serialNumber = (serialNumber > 0) ? serialNumber : 0;
     this->seatsNumber = (seatsNumber > 0) ? seatsNumber : 0;
-    this->modelName = modelName;
+    this->modelName = !modelName.empty() ? modelName : "";
 }

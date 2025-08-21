@@ -24,10 +24,7 @@ string CFlightCompany::getCompanyName() const
 
 void CFlightCompany::SetName(string name)
 {
-    if (!name.empty())
-    {
-        this->companyName = name;
-    }
+    this->companyName = !name.empty() ? name : "";
 }
 
 void CFlightCompany::Print() const
