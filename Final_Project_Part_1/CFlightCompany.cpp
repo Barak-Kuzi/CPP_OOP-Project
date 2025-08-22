@@ -3,7 +3,7 @@
 
 using namespace std;
 
-CFlightCompany::CFlightCompany(string companyName)
+CFlightCompany::CFlightCompany(string companyName) : companyName("")
 {
     SetName(companyName);
 }
@@ -24,7 +24,10 @@ string CFlightCompany::getCompanyName() const
 
 void CFlightCompany::SetName(string name)
 {
-    this->companyName = !name.empty() ? name : "";
+    if (!name.empty())
+    {
+        this->companyName = name;
+    }
 }
 
 void CFlightCompany::Print() const

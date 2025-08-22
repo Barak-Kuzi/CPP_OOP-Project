@@ -1,11 +1,12 @@
+#include <iostream>
 #include "CPlane.h"
 
-CPlane::CPlane(int serialNumber, int seatsNumber, string modelName)
+CPlane::CPlane(int serialNumber, int seatsNumber, string modelName) : serialNumber(0), seatsNumber(0), modelName("")
 {
     init(serialNumber, seatsNumber, modelName);
 }
 
-CPlane::CPlane(const CPlane& other)
+CPlane::CPlane(const CPlane& other) : serialNumber(0), seatsNumber(0), modelName("")
 {
     init(other.serialNumber, other.seatsNumber, other.modelName);
 }
@@ -46,7 +47,18 @@ void CPlane::Print() const
 
 void CPlane::init(int serialNumber, int seatsNumber, string modelName)
 {
-    this->serialNumber = (serialNumber > 0) ? serialNumber : 0;
-    this->seatsNumber = (seatsNumber > 0) ? seatsNumber : 0;
-    this->modelName = !modelName.empty() ? modelName : "";
+    if (serialNumber > 0)
+    {
+        this->serialNumber = serialNumber;
+    }
+
+    if (seatsNumber > 0)
+    {
+        this->seatsNumber = seatsNumber;
+    }
+
+    if (!modelName.empty())
+    {
+        this->modelName = modelName;
+    }
 }

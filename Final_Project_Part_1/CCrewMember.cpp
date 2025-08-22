@@ -3,16 +3,19 @@
 
 using namespace std;
 
+// No default value is needed for `address` because its constructor already ensures a valid state.
 CCrewMember::CCrewMember(string name, CAddress address, int airTimeMinutes)
-    : name(!name.empty() ? name : ""),
-    address(address),
-    airTimeMinutes((airTimeMinutes > 0) ? airTimeMinutes : 0)
+    : name(""), address(address), airTimeMinutes(0)
 {
+    setName(name);
+    UpdateMinutes(airTimeMinutes);
 }
 
 CCrewMember::CCrewMember(const CCrewMember& other)
-    : name(other.name), address(other.address), airTimeMinutes(other.airTimeMinutes)
+    : name(""), address(other.address), airTimeMinutes(0)
 {
+    setName(other.name);
+    UpdateMinutes(other.airTimeMinutes);
 }
 
 CCrewMember::~CCrewMember()
@@ -44,9 +47,13 @@ int CCrewMember::getAirTimeMinutes() const
     return airTimeMinutes;
 }
 
+
 void CCrewMember::setName(string name)
 {
-    this->name = !name.empty() ? name : "";
+    if (!name.empty()) 
+    {
+        this->name = name;
+    }
 }
 
 void CCrewMember::setAddress(CAddress address)

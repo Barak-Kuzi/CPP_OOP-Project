@@ -4,11 +4,13 @@
 using namespace std;
 
 CFlightInfo::CFlightInfo(string destination, int flightNumber, int flightTimeMinutes, int flightDistanceKm)
+    : destination(""), flightNumber(0), flightTimeMinutes(0), flightDistanceKm(0)
 {
     init(destination, flightNumber, flightTimeMinutes, flightDistanceKm);
 }
 
 CFlightInfo::CFlightInfo(const CFlightInfo& other)
+    : destination(""), flightNumber(0), flightTimeMinutes(0), flightDistanceKm(0)
 {
     init(other.destination, other.flightNumber, other.flightTimeMinutes, other.flightDistanceKm);
 }
@@ -39,22 +41,34 @@ int CFlightInfo::getFlightDistanceKm() const
 
 void CFlightInfo::setFlightNumber(int flightNumber)
 {
-    this->flightNumber = (flightNumber > 0) ? flightNumber : 0;
+    if (flightNumber > 0) 
+    {
+        this->flightNumber = flightNumber;
+    }
 }
 
 void CFlightInfo::SetDest(string destination)
 {
-    this->destination = !destination.empty() ? destination : "";
+    if (!destination.empty()) 
+    {
+        this->destination = destination;
+    }
 }
 
 void CFlightInfo::setFlightTimeMinutes(int flightTimeMinutes)
 {
-    this->flightTimeMinutes = (flightTimeMinutes > 0) ? flightTimeMinutes : 0;
+    if (flightTimeMinutes > 0)
+    {
+        this->flightTimeMinutes = flightTimeMinutes;
+    }
 }
 
 void CFlightInfo::setFlightDistanceKm(int flightDistanceKm)
 {
-    this->flightDistanceKm = (flightDistanceKm > 0) ? flightDistanceKm : 0;
+    if (flightDistanceKm > 0) 
+    {
+        this->flightDistanceKm = flightDistanceKm;
+    }
 }
 
 bool CFlightInfo::isEqual(const CFlightInfo& other) const
