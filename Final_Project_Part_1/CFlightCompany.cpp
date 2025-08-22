@@ -3,7 +3,7 @@
 
 using namespace std;
 
-CFlightCompany::CFlightCompany(string companyName)
+CFlightCompany::CFlightCompany(string companyName) : companyName("")
 {
     SetName(companyName);
 }
