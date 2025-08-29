@@ -1,14 +1,16 @@
 #include <iostream>
 #include "CPlane.h"
 
-CPlane::CPlane(int serialNumber, int seatsNumber, string modelName) : serialNumber(0), seatsNumber(0), modelName("")
+int CPlane::nextSerial = CPlane::START_ID;
+
+CPlane::CPlane(int seatsNumber, string modelName) : serialNumber(nextSerial++), seatsNumber(0), modelName("")
 {
-    init(serialNumber, seatsNumber, modelName);
+    init(seatsNumber, modelName);
 }
 
-CPlane::CPlane(const CPlane& other) : serialNumber(0), seatsNumber(0), modelName("")
+CPlane::CPlane(const CPlane& other) : serialNumber(other.serialNumber), seatsNumber(0), modelName("")
 {
-    init(other.serialNumber, other.seatsNumber, other.modelName);
+    init(other.seatsNumber, other.modelName);
 }
 
 CPlane::~CPlane()
@@ -45,13 +47,8 @@ void CPlane::Print() const
         << seatsNumber << endl;
 }
 
-void CPlane::init(int serialNumber, int seatsNumber, string modelName)
+void CPlane::init(int seatsNumber, string modelName)
 {
-    if (serialNumber > 0)
-    {
-        this->serialNumber = serialNumber;
-    }
-
     if (seatsNumber > 0)
     {
         this->seatsNumber = seatsNumber;
@@ -61,4 +58,40 @@ void CPlane::init(int serialNumber, int seatsNumber, string modelName)
     {
         this->modelName = modelName;
     }
+}
+
+CPlane& CPlane::operator=(const CPlane& other)
+{
+    if (this != &other)
+    {
+        init(other.seatsNumber, other.modelName);
+    }
+    return *this;
+}
+
+bool CPlane::operator==(const CPlane& other) const
+{
+    return this->serialNumber == other.serialNumber;
+}
+
+ostream& operator<<(ostream& out, const CPlane& plane)
+{
+    out << "Plane " << plane.serialNumber
+        << " degem " << plane.modelName
+        << " seats " << plane.seatsNumber
+        << endl;
+    return out;
+}
+
+CPlane& CPlane::operator++()
+{
+    seatsNumber++;
+    return *this;
+}
+
+CPlane CPlane::operator++(int)
+{
+    CPlane temp = *this;
+    seatsNumber++;
+    return temp;
 }

@@ -9,11 +9,15 @@ private:
     int serialNumber;
     string modelName;
     int seatsNumber;
+    static int nextSerial;
 
-    void init(int serialNumber, int seatsNumber, string modelName);
+    void init(int seatsNumber, string modelName);
 
 public:
-    CPlane(int serialNumber, int seatsNumber, string modelName);
+    static const int START_ID = 100;
+    CPlane() = delete;
+
+    CPlane(int seatsNumber, string modelName);
 
     CPlane(const CPlane& other);
 
@@ -26,4 +30,14 @@ public:
     bool IsEqual(const CPlane& other) const;
 
     void Print() const;
+
+    CPlane& operator=(const CPlane& other);
+
+    bool operator==(const CPlane& other) const;
+
+    friend ostream& operator<<(ostream& out, const CPlane& plane);
+
+    CPlane& operator++();
+
+    CPlane operator++(int);
 };

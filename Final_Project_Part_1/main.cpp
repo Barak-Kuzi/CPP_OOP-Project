@@ -1,112 +1,134 @@
 #define _CRT_SECURE_NO_DEPRECATE
 
 #include <iostream>
-#include "CPlane.h"
-#include "CFlightInfo.h"
-#include "CCrewMember.h"
-#include "CFlightCompany.h"
-#include "CAddress.h"
-
 using namespace std;
+
+#include "CPlane.h"
+#include "CFlight.h"
+#include "CFlightCompany.h"
+
+
+#include <iostream>
+#include "CAddress.h"
 
 int main()
 {
+	cout << endl << "Checking Address" << endl;
+	CAddress a(0, NULL, NULL);
+	cin >> a;
+	cout << a;
+
 	cout << endl << "Checking CFlightCompany" << endl;
 
 	CFlightCompany* pDelta = new CFlightCompany("Delta");
 	cout << endl << "First company" << endl;
-	pDelta->Print();
+	pDelta->Print(cout);
 
-	pDelta->SetName("AA");
-	cout << endl << "After change name" << endl;
-	pDelta->Print();
 
-	CFlightCompany* pComp2 = new CFlightCompany(*pDelta);
-	cout << endl << "two companies has the same name" << endl;
-	pComp2->Print();
+	CCrewMember* pCmArr[3];
 
-	delete pDelta;
-	delete pComp2;
+	pCmArr[0] = new CCrewMember("Momo", 125);
+	pCmArr[1] = new CCrewMember("Gogo");
+	pCmArr[2] = new CCrewMember("Jojo", 60);
 
-	cout << endl << "Checking CCrewMember " << endl;
-
-	CAddress b2(34, "Jafa", "Jerusalem");
-	CCrewMember* pCm1 = new CCrewMember("Momo", b2, 125);
-	cout << endl << "first Crew Member" << endl;
-	pCm1->Print();
-
-	CAddress b3(34, "Jafa", "Jerusalem");
-	CCrewMember* pCm2 = new CCrewMember("Gogo", b3);
-	cout << endl << "second Crew Member" << endl;
-	pCm2->Print();
-
-	if (!pCm2->UpdateMinutes(-14))
+	if (!((*pCmArr[1]) += 200))
 		cout << "error update minutes" << endl;
 
-	if (!pCm2->UpdateMinutes(200))
-		cout << "error update minutes" << endl;
+	for (int i = 0; i < 3; i++)
+		if (!pDelta->AddCrewMember(*pCmArr[i]))
+			cout << "Problem adding crew member " << i + 1 << endl;
 
-	{ //dont remove!
-		cout << endl << "two same crewmembers" << endl;
-		CCrewMember temp(*pCm1);
-		temp.Print();
-		if (temp.IsEqual(*pCm1))
-			cout << "*****  EQUALS *****" << endl;
-		else
-			cout << "*****  NOT EQUALS *****" << endl;
+	cout << "******** try adding CrewMembers again *********" << endl;
+	//Create another array that is equal to the first array
+	CCrewMember* crewsDup[3];
+	for (int i = 0; i < 3; i++)
+		crewsDup[i] = new CCrewMember(*pCmArr[i]);
 
-		cout << "*****  Checking Address *****" << endl;
-		CAddress a(23, "Alenbi");
-		CAddress b(34, "Jafa", "Jerusalem");
-		a.Print();
-		b.Print();
-		b.UpdateAddress("Haifa", "KG", 55);
-		b.Print();
+	for (int i = 0; i < 3; i++) {
+		if (!pDelta->AddCrewMember(*pCmArr[i]))
+			cout << "Problem adding crew member " << i + 1 << endl;
 	}
 
+	for (int i = 0; i < 3; i++)
+		delete crewsDup[i];
 
-	{// don’t remove !
+	for (int i = 0; i < 3; i++)
+		delete pCmArr[i];
 
-		CCrewMember temp = *pCm2;
-		temp.Print();
-		if (temp.IsEqual(*pCm1))
-			cout << "*****  EQUALS *****" << endl;
-		else
-			cout << "*****  NOT EQUALS *****" << endl;
-	}
-
-	delete pCm1;
-	delete pCm2;
+	cout << "******** After adding Crew member *********" << endl;
+	pDelta->Print(cout);
 
 
-	cout << endl << "Checking CFlightInfo" << endl;
+	CPlane* pPlaneArr[2];
+	pPlaneArr[0] = new CPlane(100, "Boing373");  //seats,degem
+	pPlaneArr[1] = new CPlane(10, "Boing3");
+
+	cout << "Before adding seats" << endl;
+	cout << *pPlaneArr[1];
+
+	//Adding seats
+	(*pPlaneArr[1])++;
+	++(*pPlaneArr[1]);
+
+	cout << "After adding seats" << endl;
+	cout << *pPlaneArr[1];
+
+	for (int i = 0; i < 2; i++)
+		if (!pDelta->AddPlane(*pPlaneArr[i]))
+			cout << "Problem adding plane " << i + 1 << endl;
+
+	for (int i = 0; i < 2; i++)
+		delete pPlaneArr[i];
+
+	cout << "******** After adding Planes *********" << endl;
+	pDelta->Print(cout);
+
 	CFlightInfo fInfo1("Paris", 343, 320, 5000);
 	CFlightInfo fInfo2("Rome", 506, 220, 4000);
 
-	fInfo1.Print();
-	fInfo2.Print();
+	cout << fInfo1;
+	cout << fInfo2;
 
-	fInfo2.SetDest("London");
-	cout << "Info after change destination" << endl;
-	fInfo2.Print();
-
-
-	cout << endl << "Checking CPlane" << endl;
-
-	CPlane p1(101, 200, "Jumbo");
-	CPlane p2(p1);
-	CPlane p3 = p1;
-
-	p1.Print();
-	p2.Print();
-	p3.Print();
-
-	if (p1.IsEqual(p2))
-		cout << "*****  EQUALS *****" << endl;
+	if (fInfo1 != fInfo2)
+		cout << "FlightInfo not equal" << endl;
 	else
-		cout << "*****  NOT EQUALS *****" << endl;
+		cout << "FlightInfo equal" << endl;
+
+	cout << "Flight time is: " << (int)fInfo1;
+
+	CFlight* FArr[2];
+	FArr[0] = new CFlight(fInfo1);
+	FArr[1] = new CFlight(fInfo2, pDelta->GetPlane(1));
+
+	cout << "Before seting plane" << endl;
+	cout << *FArr[0];
+	FArr[0]->SetPlane(pDelta->GetPlane(0));
+
+	cout << "After seting plane " << endl;
+	cout << *FArr[0];
+
+	for (int i = 0; i < 2; i++)
+		if (!pDelta->AddFlight(*FArr[i]))
+			cout << "Problem adding flight " << i + 1 << endl;
+
+	for (int i = 0; i < 2; i++)
+		delete FArr[i];
+
+	cout << "******** After adding Flights *********" << endl;
+	pDelta->Print(cout);
+
+
+	pDelta->AddCrewToFlight(fInfo1.GetFNum(), CCrewMember::START_ID);
+	pDelta->AddCrewToFlight(fInfo1.GetFNum(), CCrewMember::START_ID + 1);
+	pDelta->AddCrewToFlight(fInfo1.GetFNum(), CCrewMember::START_ID + 2);
+
+	cout << "******** After adding Crew to Flight *********" << endl;
+	pDelta->Print(cout);
+
+
+	delete pDelta;
 
 	system("pause");
-
 	return 0;
 }
+
