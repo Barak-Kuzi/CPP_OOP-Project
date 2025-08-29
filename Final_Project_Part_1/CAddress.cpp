@@ -8,6 +8,18 @@ CAddress::CAddress(int houseNumber, string street, string city)
     UpdateAddress(city, street, houseNumber);
 }
 
+string CAddress::ConvertCharPtrToString(const char* str) {
+    return (str ? string(str) : string(""));
+}
+
+CAddress::CAddress(int houseNumber, const char* street, const char* city)
+    : houseNumber(houseNumber),
+    street(ConvertCharPtrToString(street)),
+    city(ConvertCharPtrToString(city)) 
+{
+    UpdateAddress(ConvertCharPtrToString(city), ConvertCharPtrToString(street), houseNumber);
+}
+
 CAddress::CAddress(const CAddress& other)
     : houseNumber(0), street(""), city("Tel Aviv")
 {
@@ -58,4 +70,49 @@ void CAddress::Print() const
         << houseNumber
         << ", "
         << city << endl;
+}
+
+CAddress& CAddress::operator=(const CAddress& other)
+{
+    if (this != &other)
+    {
+        UpdateAddress(other.city, other.street, other.houseNumber);
+    }
+    return *this;
+}
+
+bool CAddress::operator==(const CAddress& other) const
+{
+    return (city == other.city &&
+        street == other.street &&
+        houseNumber == other.houseNumber);
+}
+
+bool CAddress::operator!=(const CAddress& other) const
+{
+    return !(*this == other);
+}
+    
+istream& operator>>(istream& in, CAddress& address)
+{
+    cout << "Please enter house number street name and city name:" << endl;
+    in >> address.houseNumber >> address.street >> address.city;
+    return in;
+}
+
+ostream& operator<<(ostream& out, const CAddress& address)
+{
+    // TODO: use getCurrentAddress
+    out << address.street
+        << " " 
+        << address.houseNumber
+        << "  "
+        << address.city
+        << endl;
+    return out;
+}
+
+string CAddress::GetCurrentAddress() const
+{
+    return street + " " + to_string(houseNumber) + ", " + city;
 }

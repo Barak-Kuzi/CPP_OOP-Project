@@ -1,0 +1,112 @@
+#include "CFlight.h"
+
+CFlight::CFlight(const CFlightInfo& info)
+    : flightInfo(info), plane(nullptr), crewCount(0)
+{
+    for (int i = 0; i < MAX_CREW; i++)
+        crewMembers[i] = nullptr;
+}
+
+CFlight::CFlight(const CFlightInfo& info, CPlane* plane) : 
+    flightInfo(info), plane(nullptr), crewCount(0)
+{
+    for (int i = 0; i < MAX_CREW; i++)
+        crewMembers[i] = nullptr;
+    SetPlane(plane);
+}
+
+CFlight::CFlight(const CFlight& other)
+    : flightInfo(other.flightInfo), plane(other.plane), crewCount(other.crewCount)
+{
+    for (int i = 0; i < MAX_CREW; i++)
+    {
+        if (other.crewMembers[i])
+            crewMembers[i] = other.crewMembers[i];
+        else
+            crewMembers[i] = nullptr;
+    }
+}
+
+CFlight::~CFlight()
+{
+}
+
+CFlight& CFlight::operator=(const CFlight& other)
+{
+    if (this != &other)
+    {
+        flightInfo = other.flightInfo;
+        plane = other.plane;
+        crewCount = other.crewCount;
+        for (int i = 0; i < MAX_CREW; i++)
+            crewMembers[i] = other.crewMembers[i];
+    }
+    return *this;
+}
+
+const CFlightInfo CFlight::getFlightInfo() const
+{
+    return this->flightInfo;
+}
+
+void CFlight::SetPlane(CPlane* newPlane)
+{
+    if (newPlane != nullptr)
+    {
+        plane = newPlane;
+    }
+}
+
+const CPlane CFlight::getPlane() const
+{
+    return *this->plane;
+}
+
+const CCrewMember* CFlight::getCrewMember() const
+{
+    return *this->crewMembers;
+}
+
+const int CFlight::getCrewMembersCount() const
+{
+    return this->crewCount;
+}
+
+CFlight& operator+(CFlight& f, const CCrewMember& crew) {
+    if (f.crewCount < MAX_CREW) {
+        for (int i = 0; i < f.crewCount; i++) {
+            if (*f.crewMembers[i] == crew) {
+                return f;
+            }
+        }
+        f.crewMembers[f.crewCount++] = new CCrewMember(crew);
+    }
+    return f;
+}
+
+
+ostream& operator<<(ostream& out, const CFlight& flight)
+{
+    out << "Flight " << flight.flightInfo;
+
+    if (flight.plane)
+        out << *flight.plane;
+    else
+        out << " No plane assign yet ";
+
+    out << " There are " << flight.crewCount << " crew memebers in flight:" << endl;
+    for (int i = 0; i < flight.crewCount; i++)
+    {
+        if (flight.crewMembers[i])
+        {
+            out << *flight.crewMembers[i];
+        }
+    }
+
+    return out;
+}
+
+bool CFlight::operator==(const CFlight& other) const
+{
+    return (flightInfo == other.flightInfo);
+}

@@ -19,7 +19,7 @@ CFlightInfo::~CFlightInfo()
 {
 }
 
-int CFlightInfo::getFlightNumber() const
+int CFlightInfo::GetFNum() const
 {
     return flightNumber;
 }
@@ -94,4 +94,44 @@ void CFlightInfo::init(string destination, int flightNumber, int flightTimeMinut
     setFlightNumber(flightNumber);
     setFlightTimeMinutes(flightTimeMinutes);
     setFlightDistanceKm(flightDistanceKm);
+}
+
+CFlightInfo& CFlightInfo::operator=(const CFlightInfo& other)
+{
+    if (this != &other)
+    {
+        init(other.destination, other.flightNumber, other.flightTimeMinutes, other.flightDistanceKm);
+    }
+    return *this;
+}
+
+bool CFlightInfo::operator==(const CFlightInfo& other) const
+{
+    return (flightNumber == other.flightNumber &&
+        flightDistanceKm == other.flightDistanceKm &&
+        destination == other.destination &&
+        flightTimeMinutes == other.flightTimeMinutes);
+}
+
+bool CFlightInfo::operator!=(const CFlightInfo& other) const
+{
+    return !(*this == other);
+}
+
+ostream& operator<<(ostream& out, const CFlightInfo& flightInfo)
+{
+    out << "Flight Info dest: "
+        << flightInfo.destination
+        << " Number "
+        << flightInfo.flightNumber
+        << " minutes "
+        << flightInfo.flightTimeMinutes
+        << " KM "
+        << flightInfo.flightDistanceKm << endl;
+    return out;
+}
+
+CFlightInfo::operator int() const
+{
+    return flightTimeMinutes;
 }

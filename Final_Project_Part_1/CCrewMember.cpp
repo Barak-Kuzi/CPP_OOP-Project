@@ -3,19 +3,25 @@
 
 using namespace std;
 
-// No default value is needed for `address` because its constructor already ensures a valid state.
-CCrewMember::CCrewMember(string name, CAddress address, int airTimeMinutes)
-    : name(""), address(address), airTimeMinutes(0)
+int CCrewMember::nextID = CCrewMember::START_ID;
+
+void CCrewMember::init(string name, int airTimeMinutes, CAddress address)
 {
     setName(name);
+    setAddress(address);
     UpdateMinutes(airTimeMinutes);
 }
 
-CCrewMember::CCrewMember(const CCrewMember& other)
-    : name(""), address(other.address), airTimeMinutes(0)
+CCrewMember::CCrewMember(string name,  int airTimeMinutes, CAddress address)
+    : name(""), address(CAddress(0, "", "")), airTimeMinutes(0), memberID(nextID++)
 {
-    setName(other.name);
-    UpdateMinutes(other.airTimeMinutes);
+    init(name, airTimeMinutes, address);
+}
+
+CCrewMember::CCrewMember(const CCrewMember& other)
+    : name(""), address(CAddress(0, "", "")), airTimeMinutes(0), memberID(other.memberID)
+{
+    init(other.name, other.airTimeMinutes, other.address);
 }
 
 CCrewMember::~CCrewMember()
@@ -56,6 +62,7 @@ void CCrewMember::setName(string name)
     }
 }
 
+// The constructor already ensures a valid state.
 void CCrewMember::setAddress(CAddress address)
 {
     this->address = address;
@@ -72,4 +79,44 @@ void CCrewMember::Print() const
         << name
         << " minutes "
         << airTimeMinutes << endl;
+}
+
+int CCrewMember::getMemberID() const
+{
+    return this->memberID;
+}
+
+CCrewMember& CCrewMember::operator=(const CCrewMember& other)
+{
+    if (this != &other)
+    {
+        name = other.name;
+        airTimeMinutes = other.airTimeMinutes;
+        address = other.address;
+    }
+    return *this;
+}
+
+bool CCrewMember::operator+=(int minutes)
+{
+    if (minutes > 0)
+    {
+        airTimeMinutes += minutes;
+        return true;
+    }
+        
+    return false;
+}
+
+bool CCrewMember::operator==(const CCrewMember& other) const
+{
+    return this->memberID == other.memberID;
+}
+
+ostream& operator<<(ostream& out, const CCrewMember& crewMember)
+{
+    out << "Crewmember " << crewMember.name
+        << " minutes "
+        << crewMember.airTimeMinutes << endl;
+    return out;
 }
