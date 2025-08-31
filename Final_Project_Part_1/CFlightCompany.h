@@ -28,6 +28,7 @@ private:
 
     CCrewMember* getCrewMemberById(int id);
     CFlight* getFlightByNumber(int flightNumber);
+    void initFlightCompanyArrays();
 
 public:
     CFlightCompany() = delete;
