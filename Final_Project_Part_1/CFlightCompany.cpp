@@ -3,12 +3,29 @@
 
 using namespace std;
 
+
+void CFlightCompany::initFlightCompanyArrays()
+{
+    for (int i = 0; i < MAX_CREWS; i++)
+    {
+        crews[i] = nullptr;
+    }
+
+    for (int i = 0; i < MAX_PLANES; i++)
+    {
+        planes[i] = nullptr;
+    }
+
+    for (int i = 0; i < MAX_FLIGHTS; i++)
+    {
+        flights[i] = nullptr;
+    }
+}
+
 CFlightCompany::CFlightCompany(string companyName) 
     : companyName(""), crewCount(0), planeCount(0), flightCount(0)
 {
-    for (int i = 0; i < MAX_CREWS; i++) crews[i] = nullptr;
-    for (int i = 0; i < MAX_PLANES; i++) planes[i] = nullptr;
-    for (int i = 0; i < MAX_FLIGHTS; i++) flights[i] = nullptr;
+    initFlightCompanyArrays();
     SetName(companyName);
 }
 
@@ -19,6 +36,7 @@ CFlightCompany::CFlightCompany(string companyName)
 
 CFlightCompany::~CFlightCompany()
 {
+    initFlightCompanyArrays();
 }
 
 string CFlightCompany::getCompanyName() const
@@ -43,47 +61,82 @@ void CFlightCompany::Print(ostream& out) const
 }
 
 bool CFlightCompany::AddCrewMember(const CCrewMember& crew) {
-    if (crewCount >= MAX_CREWS) return false;
+    if (crewCount >= MAX_CREWS)
+    {
+        return false;
+    }
+
     for (int i = 0; i < crewCount; i++) 
     {   
-        if (*crews[i] == crew) return false;
+        if (*crews[i] == crew)
+        {
+            return false;
+        }
     }
-    crews[crewCount++] = new CCrewMember(crew);
+
+    crews[crewCount] = new CCrewMember(crew);
+    crewCount++;
+
     return true;
 }
 
 bool CFlightCompany::AddPlane(const CPlane& plane) {
-    if (planeCount >= MAX_PLANES) return false;
+    if (planeCount >= MAX_PLANES)
+    {
+        return false;
+    }
+
     for (int i = 0; i < planeCount; i++) 
     {
-        if (*planes[i] == plane) return false;
+        if (*planes[i] == plane)
+        {
+            return false;
+        }
     }
-    planes[planeCount++] = new CPlane(plane);
+
+    planes[planeCount] = new CPlane(plane);
+    planeCount++;
+    
     return true;
 }
 
 bool CFlightCompany::AddFlight(const CFlight& flight) {
-    if (flightCount >= MAX_FLIGHTS) return false;
+    if (flightCount >= MAX_FLIGHTS)
+    {
+        return false;
+    }
+
     for (int i = 0; i < flightCount; i++)
     {
-        if (*flights[i] == flight) return false;
+        if (*flights[i] == flight)
+        {
+            return false;
+        }
     }
-    flights[flightCount++] = new CFlight(flight);
+
+    flights[flightCount] = new CFlight(flight);
+    flightCount++;
+
     return true;
 }
 
 CCrewMember* CFlightCompany::getCrewMemberById(int id) {
     for (int i = 0; i < crewCount; i++) {
         if (crews[i]->getMemberID() == id)
+        {
             return crews[i];
+        }
     }
     return nullptr;
 }
 
 CFlight* CFlightCompany::getFlightByNumber(int flightNum) {
-    for (int i = 0; i < flightCount; i++) {
+    for (int i = 0; i < flightCount; i++) 
+    {
         if (flights[i]->getFlightInfo().GetFNum() == flightNum)
+        {
             return flights[i];
+        }
     }
     return nullptr;
 }
@@ -91,14 +144,23 @@ CFlight* CFlightCompany::getFlightByNumber(int flightNum) {
 bool CFlightCompany::AddCrewToFlight(int flightNum, int crewMemberId) {
     CCrewMember* crewMember = getCrewMemberById(crewMemberId);
     CFlight* flight = getFlightByNumber(flightNum);
-    if (!crewMember || !flight) return false;
+
+    if (!crewMember || !flight)
+    {
+        return false;
+    }
+
     (*flight) + (*crewMember);
     
     return true;
 }
 
 CPlane* CFlightCompany::GetPlane(int idx) {
-    if (idx < 0 || idx >= planeCount) return nullptr;
+    if (idx < 0 || idx >= planeCount)
+    {
+        return nullptr;
+    }
+
     return planes[idx];
 }
 

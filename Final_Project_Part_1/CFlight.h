@@ -17,6 +17,8 @@ private:
     CCrewMember* crewMembers[MAX_CREW];
     int crewCount;
 
+    void initCrewMembersArr();
+
 public:
     CFlight() = delete;
 

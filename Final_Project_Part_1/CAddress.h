@@ -15,8 +15,8 @@ private:
 public:
     CAddress() = delete;
 
-    CAddress(int houseNumber, string street, string city = "Tel Aviv");
-    CAddress(int houseNumber, const char* street, const char* city);
+    //CAddress(int houseNumber, string street, string city = "Tel Aviv");
+    CAddress(int houseNumber, const char* street, const char* city = "Tel Aviv");
 
     CAddress(const CAddress& other);
 

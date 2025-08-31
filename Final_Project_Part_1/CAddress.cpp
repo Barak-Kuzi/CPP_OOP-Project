@@ -2,20 +2,20 @@
 #include "CAddress.h"
 
 // The initializer list sets `city` to `"Tel Aviv"` to match the default value defined in the header file.
-CAddress::CAddress(int houseNumber, string street, string city)
-    : houseNumber(0), street(""), city("Tel Aviv")
-{
-    UpdateAddress(city, street, houseNumber);
-}
+//CAddress::CAddress(int houseNumber, string street, string city)
+//    : houseNumber(0), street(""), city("Tel Aviv")
+//{
+//    UpdateAddress(city, street, houseNumber);
+//}
 
 string CAddress::ConvertCharPtrToString(const char* str) {
     return (str ? string(str) : string(""));
 }
 
 CAddress::CAddress(int houseNumber, const char* street, const char* city)
-    : houseNumber(houseNumber),
+    : houseNumber(0),
     street(ConvertCharPtrToString(street)),
-    city(ConvertCharPtrToString(city)) 
+    city(ConvertCharPtrToString("Tel Aviv"))
 {
     UpdateAddress(ConvertCharPtrToString(city), ConvertCharPtrToString(street), houseNumber);
 }
