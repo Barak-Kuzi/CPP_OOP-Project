@@ -29,11 +29,6 @@ CFlightCompany::CFlightCompany(string companyName)
     SetName(companyName);
 }
 
-//CFlightCompany::CFlightCompany(const CFlightCompany& other)
-//{
-//    SetName(other.companyName);
-//}
-
 CFlightCompany::~CFlightCompany()
 {
     initFlightCompanyArrays();
@@ -53,11 +48,8 @@ void CFlightCompany::SetName(string name)
 }
 
 void CFlightCompany::Print(ostream& out) const
-{   
-    cout << "Flight company: " << companyName << endl;
-    PrintCrewMembers();
-    PrintPlanes();
-    PrintFlights();
+{
+    cout << *this;
 }
 
 bool CFlightCompany::AddCrewMember(const CCrewMember& crew) {
@@ -207,9 +199,35 @@ void CFlightCompany::PrintFlights() const
 }
 
 ostream& operator<<(ostream& os, const CFlightCompany& comp) {
-    os << "Flight Company: " << comp.companyName << "\n";
-    os << "Crews: " << comp.crewCount << "\n";
-    os << "Planes: " << comp.planeCount << "\n";
-    os << "Flights: " << comp.flightCount << "\n";
+    os << "Flight company: " << comp.companyName << endl;
+
+    os << "There are " << comp.crewCount << " Crew members:" << endl;
+    for (int i = 0; i < comp.crewCount; i++) 
+    {
+        if (comp.crews[i])
+        {
+            os << *comp.crews[i];
+        }
+    }
+
+    os << "There are " << comp.planeCount << " Planes:" << endl;
+    for (int i = 0; i < comp.planeCount; i++) 
+    {
+        if (comp.planes[i])
+        {
+            os << *comp.planes[i];
+        }
+    }
+
+    os << "There are " << comp.flightCount << " Flights:" << endl;
+    for (int i = 0; i < comp.flightCount; i++)
+    {
+        if (comp.flights[i])
+        {
+            os << *comp.flights[i];
+        }
+    }
+
     return os;
 }
+

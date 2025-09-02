@@ -78,8 +78,7 @@ ostream& operator<<(ostream& out, const CPlane& plane)
 {
     out << "Plane " << plane.serialNumber
         << " degem " << plane.modelName
-        << " seats " << plane.seatsNumber
-        << endl;
+        << " seats " << plane.seatsNumber << endl;
     return out;
 }
 

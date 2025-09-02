@@ -102,7 +102,6 @@ istream& operator>>(istream& in, CAddress& address)
 
 ostream& operator<<(ostream& out, const CAddress& address)
 {
-    // TODO: use getCurrentAddress
     out << address.street
         << " " 
         << address.houseNumber

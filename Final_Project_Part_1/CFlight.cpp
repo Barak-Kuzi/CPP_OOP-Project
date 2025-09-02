@@ -102,7 +102,6 @@ CFlight& operator+(CFlight& f, const CCrewMember& crew) {
 
 }
 
-
 ostream& operator<<(ostream& out, const CFlight& flight)
 {
     out << "Flight " << flight.flightInfo;
@@ -115,7 +114,7 @@ ostream& operator<<(ostream& out, const CFlight& flight)
     {
         out << " No plane assign yet ";
     }
-        
+
     out << " There are " << flight.crewCount << " crew memebers in flight:" << endl;
     for (int i = 0; i < flight.crewCount; i++)
     {
