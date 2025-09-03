@@ -8,12 +8,6 @@ void CFlight::initCrewMembersArr()
     }
 }
 
-CFlight::CFlight(const CFlightInfo& info)
-    : flightInfo(info), plane(nullptr), crewCount(0)
-{
-    initCrewMembersArr();
-}
-
 CFlight::CFlight(const CFlightInfo& info, CPlane* plane) : 
     flightInfo(info), plane(nullptr), crewCount(0)
 {

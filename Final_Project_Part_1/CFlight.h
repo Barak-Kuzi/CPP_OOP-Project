@@ -22,9 +22,7 @@ private:
 public:
     CFlight() = delete;
 
-    CFlight(const CFlightInfo& info);
-
-    CFlight(const CFlightInfo& info, CPlane* plane);
+    CFlight(const CFlightInfo& info, CPlane* plane = nullptr);
 
     CFlight(const CFlight& other);
 
