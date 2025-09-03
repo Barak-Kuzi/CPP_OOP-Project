@@ -68,11 +68,6 @@ void CCrewMember::setAddress(CAddress address)
     this->address = address;
 }
 
-bool CCrewMember::IsEqual(const CCrewMember& other) const
-{
-    return this->name == other.name;
-}
-
 void CCrewMember::Print() const
 {
     cout << "Crewmember "

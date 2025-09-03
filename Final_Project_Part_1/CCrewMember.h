@@ -36,8 +36,6 @@ public:
     void setName(string name);
     void setAddress(CAddress address);
 
-    bool IsEqual(const CCrewMember& other) const;
-
     void Print() const;
 
     CCrewMember& operator=(const CCrewMember& other);

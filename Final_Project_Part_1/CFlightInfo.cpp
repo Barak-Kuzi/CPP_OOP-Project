@@ -71,11 +71,6 @@ void CFlightInfo::setFlightDistanceKm(int flightDistanceKm)
     }
 }
 
-bool CFlightInfo::isEqual(const CFlightInfo& other) const
-{
-    return this->flightNumber == other.flightNumber;
-}
-
 void CFlightInfo::Print() const
 {
     cout << "Flight Info dest: "

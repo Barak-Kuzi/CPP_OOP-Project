@@ -32,11 +32,6 @@ int CPlane::getSeatsNumber() const
     return seatsNumber;
 }
 
-bool CPlane::IsEqual(const CPlane& other) const
-{
-    return this->serialNumber == other.serialNumber;
-}
-
 void CPlane::Print() const
 {
     cout << "Plane "
