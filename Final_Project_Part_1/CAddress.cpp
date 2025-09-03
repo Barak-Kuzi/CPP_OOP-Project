@@ -6,6 +6,8 @@ string CAddress::ConvertCharPtrToString(const char* str) {
 }
 
 // The initializer list sets `city` to `"Tel Aviv"` to match the default value defined in the header file.
+// Without the char* to string conversion function, the main does not run,
+// because you cannot send NULL to a constructor that accepts a string.
 CAddress::CAddress(int houseNumber, const char* street, const char* city)
     : houseNumber(0),
     street(ConvertCharPtrToString(street)),
@@ -96,16 +98,11 @@ istream& operator>>(istream& in, CAddress& address)
 
 ostream& operator<<(ostream& out, const CAddress& address)
 {
-    out << address.street
-        << " " 
-        << address.houseNumber
-        << "  "
-        << address.city
-        << endl;
+    out << address.GetCurrentAddress();
     return out;
 }
 
 string CAddress::GetCurrentAddress() const
 {
-    return street + " " + to_string(houseNumber) + ", " + city;
+    return street + " " + to_string(houseNumber) + "  " + city + "\n";
 }
