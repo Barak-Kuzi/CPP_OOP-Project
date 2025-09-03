@@ -156,48 +156,6 @@ CPlane* CFlightCompany::GetPlane(int idx) {
     return planes[idx];
 }
 
-void CFlightCompany::PrintCrewMembers() const
-{
-    cout << "There are " << crewCount << " Crew members:" << endl;
-    if (crewCount > 0)
-    {
-        for (int i = 0; i < crewCount; i++)
-        {
-            if (crews[i] != nullptr)
-            {
-                crews[i]->Print();
-            }
-        }
-    }
-}
-
-void CFlightCompany::PrintPlanes() const
-{
-    cout << "There are " << planeCount << " Planes:" << endl;
-    if (planeCount > 0)
-    {
-        for (int i = 0; i < planeCount; i++)
-        {
-            if (planes[i] != nullptr)
-            {
-                planes[i]->Print();
-            }
-        }
-    }
-}
-
-void CFlightCompany::PrintFlights() const
-{
-    cout << "There are " << flightCount << " Flights:" << endl;
-    if (flightCount > 0)
-    {
-        for (int i = 0; i < flightCount; i++)
-        {
-            cout << *flights[i];
-        }
-    }
-}
-
 ostream& operator<<(ostream& os, const CFlightCompany& comp) {
     os << "Flight company: " << comp.companyName << endl;
 
