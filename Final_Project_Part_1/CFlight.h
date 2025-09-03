@@ -39,7 +39,6 @@ public:
     const CCrewMember* getCrewMember() const;
     const int getCrewMembersCount() const;
 
-    //Flight& operator+(CCrewMember* member);
     friend CFlight& operator+(CFlight& f, const CCrewMember& crew);
 
     friend ostream& operator<<(ostream& out, const CFlight& flight);

@@ -37,9 +37,15 @@ CFlight::CFlight(const CFlight& other)
     }
 }
 
+// The flight does not own the plane (it belongs to the company), so it must not be deleted here.
+// A pointer is sent to the plane and it is not made 'new'.
 CFlight::~CFlight()
 {
-    initCrewMembersArr();
+    for (int i = 0; i < MAX_CREW; i++)
+    {
+        delete crewMembers[i];
+        crewMembers[i] = nullptr;
+    }
 }
 
 CFlight& CFlight::operator=(const CFlight& other)

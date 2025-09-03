@@ -31,7 +31,23 @@ CFlightCompany::CFlightCompany(string companyName)
 
 CFlightCompany::~CFlightCompany()
 {
-    initFlightCompanyArrays();
+    for (int i = 0; i < MAX_CREWS; i++)
+    {
+        delete crews[i];
+        crews[i] = nullptr;
+    }
+
+    for (int i = 0; i < MAX_PLANES; i++)
+    {
+        delete planes[i];
+        planes[i] = nullptr;
+    }
+
+    for (int i = 0; i < MAX_FLIGHTS; i++)
+    {
+        delete flights[i];
+        flights[i] = nullptr;
+    }
 }
 
 string CFlightCompany::getCompanyName() const
