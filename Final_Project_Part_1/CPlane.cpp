@@ -32,11 +32,6 @@ int CPlane::getSeatsNumber() const
     return seatsNumber;
 }
 
-bool CPlane::IsEqual(const CPlane& other) const
-{
-    return this->serialNumber == other.serialNumber;
-}
-
 void CPlane::Print() const
 {
     cout << "Plane "
@@ -78,8 +73,7 @@ ostream& operator<<(ostream& out, const CPlane& plane)
 {
     out << "Plane " << plane.serialNumber
         << " degem " << plane.modelName
-        << " seats " << plane.seatsNumber
-        << endl;
+        << " seats " << plane.seatsNumber << endl;
     return out;
 }
 

@@ -29,14 +29,25 @@ CFlightCompany::CFlightCompany(string companyName)
     SetName(companyName);
 }
 
-//CFlightCompany::CFlightCompany(const CFlightCompany& other)
-//{
-//    SetName(other.companyName);
-//}
-
 CFlightCompany::~CFlightCompany()
 {
-    initFlightCompanyArrays();
+    for (int i = 0; i < MAX_CREWS; i++)
+    {
+        delete crews[i];
+        crews[i] = nullptr;
+    }
+
+    for (int i = 0; i < MAX_PLANES; i++)
+    {
+        delete planes[i];
+        planes[i] = nullptr;
+    }
+
+    for (int i = 0; i < MAX_FLIGHTS; i++)
+    {
+        delete flights[i];
+        flights[i] = nullptr;
+    }
 }
 
 string CFlightCompany::getCompanyName() const
@@ -53,11 +64,8 @@ void CFlightCompany::SetName(string name)
 }
 
 void CFlightCompany::Print(ostream& out) const
-{   
-    cout << "Flight company: " << companyName << endl;
-    PrintCrewMembers();
-    PrintPlanes();
-    PrintFlights();
+{
+    cout << *this;
 }
 
 bool CFlightCompany::AddCrewMember(const CCrewMember& crew) {
@@ -164,52 +172,36 @@ CPlane* CFlightCompany::GetPlane(int idx) {
     return planes[idx];
 }
 
-void CFlightCompany::PrintCrewMembers() const
-{
-    cout << "There are " << crewCount << " Crew members:" << endl;
-    if (crewCount > 0)
-    {
-        for (int i = 0; i < crewCount; i++)
-        {
-            if (crews[i] != nullptr)
-            {
-                crews[i]->Print();
-            }
-        }
-    }
-}
-
-void CFlightCompany::PrintPlanes() const
-{
-    cout << "There are " << planeCount << " Planes:" << endl;
-    if (planeCount > 0)
-    {
-        for (int i = 0; i < planeCount; i++)
-        {
-            if (planes[i] != nullptr)
-            {
-                planes[i]->Print();
-            }
-        }
-    }
-}
-
-void CFlightCompany::PrintFlights() const
-{
-    cout << "There are " << flightCount << " Flights:" << endl;
-    if (flightCount > 0)
-    {
-        for (int i = 0; i < flightCount; i++)
-        {
-            cout << *flights[i];
-        }
-    }
-}
-
 ostream& operator<<(ostream& os, const CFlightCompany& comp) {
-    os << "Flight Company: " << comp.companyName << "\n";
-    os << "Crews: " << comp.crewCount << "\n";
-    os << "Planes: " << comp.planeCount << "\n";
-    os << "Flights: " << comp.flightCount << "\n";
+    os << "Flight company: " << comp.companyName << endl;
+
+    os << "There are " << comp.crewCount << " Crew members:" << endl;
+    for (int i = 0; i < comp.crewCount; i++) 
+    {
+        if (comp.crews[i])
+        {
+            os << *comp.crews[i];
+        }
+    }
+
+    os << "There are " << comp.planeCount << " Planes:" << endl;
+    for (int i = 0; i < comp.planeCount; i++) 
+    {
+        if (comp.planes[i])
+        {
+            os << *comp.planes[i];
+        }
+    }
+
+    os << "There are " << comp.flightCount << " Flights:" << endl;
+    for (int i = 0; i < comp.flightCount; i++)
+    {
+        if (comp.flights[i])
+        {
+            os << *comp.flights[i];
+        }
+    }
+
     return os;
 }
+

@@ -13,13 +13,13 @@ void CCrewMember::init(string name, int airTimeMinutes, CAddress address)
 }
 
 CCrewMember::CCrewMember(string name,  int airTimeMinutes, CAddress address)
-    : name(""), address(CAddress(0, "", "")), airTimeMinutes(0), memberID(nextID++)
+    : name(""), address(CAddress(0, "", "Tel Aviv")), airTimeMinutes(0), memberID(nextID++)
 {
     init(name, airTimeMinutes, address);
 }
 
 CCrewMember::CCrewMember(const CCrewMember& other)
-    : name(""), address(CAddress(0, "", "")), airTimeMinutes(0), memberID(other.memberID)
+    : name(""), address(CAddress(0, "", "Tel Aviv")), airTimeMinutes(0), memberID(other.memberID)
 {
     init(other.name, other.airTimeMinutes, other.address);
 }
@@ -66,11 +66,6 @@ void CCrewMember::setName(string name)
 void CCrewMember::setAddress(CAddress address)
 {
     this->address = address;
-}
-
-bool CCrewMember::IsEqual(const CCrewMember& other) const
-{
-    return this->name == other.name;
 }
 
 void CCrewMember::Print() const

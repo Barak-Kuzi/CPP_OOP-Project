@@ -22,9 +22,7 @@ private:
 public:
     CFlight() = delete;
 
-    CFlight(const CFlightInfo& info);
-
-    CFlight(const CFlightInfo& info, CPlane* plane);
+    CFlight(const CFlightInfo& info, CPlane* plane = nullptr);
 
     CFlight(const CFlight& other);
 
@@ -39,7 +37,6 @@ public:
     const CCrewMember* getCrewMember() const;
     const int getCrewMembersCount() const;
 
-    //Flight& operator+(CCrewMember* member);
     friend CFlight& operator+(CFlight& f, const CCrewMember& crew);
 
     friend ostream& operator<<(ostream& out, const CFlight& flight);

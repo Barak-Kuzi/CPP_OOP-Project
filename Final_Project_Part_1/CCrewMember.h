@@ -13,14 +13,14 @@ private:
     int memberID;
     static int nextID;
 
-    void init (string name, int airTimeMinutes = 0, CAddress address = CAddress(0, "", ""));
+    void init (string name, int airTimeMinutes = 0, CAddress address = CAddress(0, "", "Tel Aviv"));
 
 
 public:
     static const int START_ID = 1000;
     CCrewMember() = delete;
 
-    CCrewMember(string name, int airTimeMinutes = 0, CAddress address = CAddress(0, "", ""));
+    CCrewMember(string name, int airTimeMinutes = 0, CAddress address = CAddress(0, "", "Tel Aviv"));
 
     CCrewMember(const CCrewMember& other);
 
@@ -35,8 +35,6 @@ public:
 
     void setName(string name);
     void setAddress(CAddress address);
-
-    bool IsEqual(const CCrewMember& other) const;
 
     void Print() const;
 

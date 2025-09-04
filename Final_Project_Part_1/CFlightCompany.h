@@ -56,8 +56,4 @@ public:
     CPlane* GetPlane(int index);
 
     friend ostream& operator<<(ostream& out, const CFlightCompany& company);
-
-    void PrintCrewMembers() const;
-    void PrintPlanes() const;
-    void PrintFlights() const;
 };

@@ -8,12 +8,6 @@ void CFlight::initCrewMembersArr()
     }
 }
 
-CFlight::CFlight(const CFlightInfo& info)
-    : flightInfo(info), plane(nullptr), crewCount(0)
-{
-    initCrewMembersArr();
-}
-
 CFlight::CFlight(const CFlightInfo& info, CPlane* plane) : 
     flightInfo(info), plane(nullptr), crewCount(0)
 {
@@ -37,9 +31,15 @@ CFlight::CFlight(const CFlight& other)
     }
 }
 
+// The flight does not own the plane (it belongs to the company), so it must not be deleted here.
+// A pointer is sent to the plane and it is not made 'new'.
 CFlight::~CFlight()
 {
-    initCrewMembersArr();
+    for (int i = 0; i < MAX_CREW; i++)
+    {
+        delete crewMembers[i];
+        crewMembers[i] = nullptr;
+    }
 }
 
 CFlight& CFlight::operator=(const CFlight& other)
@@ -102,7 +102,6 @@ CFlight& operator+(CFlight& f, const CCrewMember& crew) {
 
 }
 
-
 ostream& operator<<(ostream& out, const CFlight& flight)
 {
     out << "Flight " << flight.flightInfo;
@@ -115,7 +114,7 @@ ostream& operator<<(ostream& out, const CFlight& flight)
     {
         out << " No plane assign yet ";
     }
-        
+
     out << " There are " << flight.crewCount << " crew memebers in flight:" << endl;
     for (int i = 0; i < flight.crewCount; i++)
     {
