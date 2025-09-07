@@ -87,7 +87,7 @@ CFlight& operator+(CFlight& f, const CCrewMember& crew) {
     {
         for (int i = 0; i < f.crewCount; i++)
         {
-            if (*f.crewMembers[i] == crew)
+            if (!f.crewMembers[i]->getName().compare(crew.getName()))
             {
                 return f;
             }

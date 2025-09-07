@@ -19,7 +19,7 @@ CCrewMember::CCrewMember(string name,  int airTimeMinutes, CAddress address)
 }
 
 CCrewMember::CCrewMember(const CCrewMember& other)
-    : name(""), address(CAddress(0, "", "Tel Aviv")), airTimeMinutes(0), memberID(other.memberID)
+    : name(""), address(CAddress(0, "", "Tel Aviv")), airTimeMinutes(0), memberID(nextID++)
 {
     *this = other;
 }
@@ -77,7 +77,8 @@ CCrewMember& CCrewMember::operator=(const CCrewMember& other)
 {
     if (this != &other)
     {
-        init(other.name, other.airTimeMinutes, other.address);    
+        init(other.name, other.airTimeMinutes, other.address);
+        this->memberID = other.memberID;
     }
     return *this;
 }
