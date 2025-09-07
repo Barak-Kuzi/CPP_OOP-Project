@@ -27,8 +27,6 @@ public:
     string getModelName() const;
     int getSeatsNumber() const;
 
-    void Print() const;
-
     CPlane& operator=(const CPlane& other);
 
     bool operator==(const CPlane& other) const;

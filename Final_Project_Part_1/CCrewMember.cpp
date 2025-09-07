@@ -68,14 +68,6 @@ void CCrewMember::setAddress(CAddress address)
     this->address = address;
 }
 
-void CCrewMember::Print() const
-{
-    cout << "Crewmember "
-        << name
-        << " minutes "
-        << airTimeMinutes << endl;
-}
-
 int CCrewMember::getMemberID() const
 {
     return this->memberID;

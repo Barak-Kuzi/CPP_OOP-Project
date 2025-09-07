@@ -59,15 +59,6 @@ void CAddress::UpdateAddress(string city, string street, int houseNumber)
     }
 }
 
-void CAddress::Print() const
-{
-    cout << street
-        << " "
-        << houseNumber
-        << ", "
-        << city << endl;
-}
-
 CAddress& CAddress::operator=(const CAddress& other)
 {
     if (this != &other)

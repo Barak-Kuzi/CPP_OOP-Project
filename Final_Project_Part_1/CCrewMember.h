@@ -36,8 +36,6 @@ public:
     void setName(string name);
     void setAddress(CAddress address);
 
-    void Print() const;
-
     CCrewMember& operator=(const CCrewMember& other);
 
     bool operator+=(int minutes);

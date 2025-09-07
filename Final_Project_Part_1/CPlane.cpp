@@ -32,16 +32,6 @@ int CPlane::getSeatsNumber() const
     return seatsNumber;
 }
 
-void CPlane::Print() const
-{
-    cout << "Plane "
-        << serialNumber
-        << " degem "
-        << modelName
-        << " seats "
-        << seatsNumber << endl;
-}
-
 void CPlane::init(int seatsNumber, string modelName)
 {
     if (seatsNumber > 0)

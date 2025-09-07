@@ -71,18 +71,6 @@ void CFlightInfo::setFlightDistanceKm(int flightDistanceKm)
     }
 }
 
-void CFlightInfo::Print() const
-{
-    cout << "Flight Info dest: "
-        << destination
-        << " Number "
-        << flightNumber
-        << " minutes "
-        << flightTimeMinutes
-        << " KM "
-        << flightDistanceKm << endl;
-}
-
 void CFlightInfo::init(string destination, int flightNumber, int flightTimeMinutes, int flightDistanceKm)
 {
     SetDest(destination);
