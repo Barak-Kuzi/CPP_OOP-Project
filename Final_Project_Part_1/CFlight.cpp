@@ -18,17 +18,7 @@ CFlight::CFlight(const CFlightInfo& info, CPlane* plane) :
 CFlight::CFlight(const CFlight& other)
     : flightInfo(other.flightInfo), plane(other.plane), crewCount(other.crewCount)
 {
-    for (int i = 0; i < MAX_CREW; i++)
-    {
-        if (other.crewMembers[i])
-        {
-            crewMembers[i] = other.crewMembers[i];
-        }
-        else
-        {
-            crewMembers[i] = nullptr;
-        }
-    }
+    *this = other;
 }
 
 // The flight does not own the plane (it belongs to the company), so it must not be deleted here.
@@ -47,11 +37,18 @@ CFlight& CFlight::operator=(const CFlight& other)
     if (this != &other)
     {
         flightInfo = other.flightInfo;
-        plane = other.plane;
+        SetPlane(other.plane);
         crewCount = other.crewCount;
         for (int i = 0; i < MAX_CREW; i++)
         {
-            crewMembers[i] = other.crewMembers[i];
+            if (other.crewMembers[i])
+            {
+                crewMembers[i] = other.crewMembers[i];
+            }
+            else
+            {
+                crewMembers[i] = nullptr;
+            }
         }
     }
     return *this;

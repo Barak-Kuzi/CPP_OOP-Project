@@ -12,7 +12,7 @@ CFlightInfo::CFlightInfo(string destination, int flightNumber, int flightTimeMin
 CFlightInfo::CFlightInfo(const CFlightInfo& other)
     : destination(""), flightNumber(0), flightTimeMinutes(0), flightDistanceKm(0)
 {
-    init(other.destination, other.flightNumber, other.flightTimeMinutes, other.flightDistanceKm);
+    *this = other;
 }
 
 CFlightInfo::~CFlightInfo()

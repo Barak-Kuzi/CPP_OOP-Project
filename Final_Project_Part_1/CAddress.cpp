@@ -19,7 +19,7 @@ CAddress::CAddress(int houseNumber, const char* street, const char* city)
 CAddress::CAddress(const CAddress& other)
     : houseNumber(0), street(""), city("Tel Aviv")
 {
-    UpdateAddress(other.city, other.street, other.houseNumber);
+    *this = other;
 }
 
 CAddress::~CAddress()

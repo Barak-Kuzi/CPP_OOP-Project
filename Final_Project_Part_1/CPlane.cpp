@@ -10,7 +10,7 @@ CPlane::CPlane(int seatsNumber, string modelName) : serialNumber(nextSerial++), 
 
 CPlane::CPlane(const CPlane& other) : serialNumber(other.serialNumber), seatsNumber(0), modelName("")
 {
-    init(other.seatsNumber, other.modelName);
+    *this = other;
 }
 
 CPlane::~CPlane()
