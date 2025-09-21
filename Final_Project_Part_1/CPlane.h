@@ -36,4 +36,7 @@ public:
     CPlane& operator++();
 
     CPlane operator++(int);
+    virtual void Print(ostream& out) const;
+    virtual CPlane* Clone() const;
+    virtual void OnTakeoff(int minutes) const;
 };

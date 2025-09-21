@@ -1,5 +1,6 @@
 #include <iostream>
 #include "CPlane.h"
+#include "Cargo.h"
 
 int CPlane::nextSerial = CPlane::START_ID;
 
@@ -64,7 +65,18 @@ ostream& operator<<(ostream& out, const CPlane& plane)
     out << "Plane " << plane.serialNumber
         << " degem " << plane.modelName
         << " seats " << plane.seatsNumber << endl;
+
+    if (typeid(plane) == typeid(CCargo))
+    {
+        plane.Print(out);
+    }
+
     return out;
+}
+
+void CPlane::Print(ostream& out) const
+{
+   
 }
 
 CPlane& CPlane::operator++()
@@ -78,4 +90,13 @@ CPlane CPlane::operator++(int)
     CPlane temp = *this;
     seatsNumber++;
     return temp;
+}
+
+CPlane* CPlane::Clone() const
+{
+    return new CPlane(*this);
+}
+
+void CPlane::OnTakeoff(int minutes) const
+{
 }

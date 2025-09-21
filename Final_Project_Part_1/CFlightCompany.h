@@ -27,7 +27,6 @@ private:
 
 
     CCrewMember* getCrewMemberById(int id);
-    CFlight* getFlightByNumber(int flightNumber);
     void initFlightCompanyArrays();
 
 public:
@@ -56,4 +55,16 @@ public:
     CPlane* GetPlane(int index);
 
     friend ostream& operator<<(ostream& out, const CFlightCompany& company);
+
+    CFlight* GetFlightByNum(int flightNumber);
+
+    CCrewMember* GetCrewMember(int index) const;
+
+    int GetCargoCount() const;
+
+    void PilotsToSimulator();
+
+    void CrewGetPresent();
+
+    void CrewGetUniform();
 };

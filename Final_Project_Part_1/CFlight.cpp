@@ -1,4 +1,9 @@
+//#include "CFlight.h"
+
 #include "CFlight.h"
+#include "Pilot.h"
+#include "Host.h"
+#include "Cargo.h"
 
 void CFlight::initCrewMembersArr()
 {
@@ -54,7 +59,7 @@ CFlight& CFlight::operator=(const CFlight& other)
     return *this;
 }
 
-const CFlightInfo CFlight::getFlightInfo() const
+const CFlightInfo CFlight::GetFlightInfo() const
 {
     return this->flightInfo;
 }
@@ -92,11 +97,38 @@ CFlight& operator+(CFlight& f, const CCrewMember& crew) {
                 return f;
             }
         }
-        f.crewMembers[f.crewCount] = new CCrewMember(crew);
+        //f.crewMembers[f.crewCount] = crew.Clone();
+        f.crewMembers[f.crewCount] = const_cast<CCrewMember*>(&crew);
         f.crewCount++;
     }
     return f;
 
+}
+
+CFlight& operator+(CFlight& f, const CCrewMember* pCrew)
+{
+    if (!pCrew)
+    {
+        return f;
+    }
+
+    for (int i = 0; i < f.crewCount; ++i)
+    {
+        if (f.crewMembers[i] == pCrew)
+        {
+            return f;
+        }
+            
+        if (*(f.crewMembers[i]) == *pCrew)
+        {
+            return f;
+        }
+    }
+
+    if (f.crewCount < MAX_CREW)
+        f.crewMembers[f.crewCount++] = const_cast<CCrewMember*>(pCrew);
+
+    return f;
 }
 
 ostream& operator<<(ostream& out, const CFlight& flight)
@@ -127,4 +159,66 @@ ostream& operator<<(ostream& out, const CFlight& flight)
 bool CFlight::operator==(const CFlight& other) const
 {
     return (flightInfo == other.flightInfo);
+}
+
+bool CFlight::TakeOff()
+{
+    if (!plane) return false;
+
+    int pilots = 0, superHosts = 0;
+    for (int i = 0; i < crewCount; ++i)
+    {
+        if (!crewMembers[i])
+        {
+            continue;
+        }
+
+        if (dynamic_cast<CPilot*>(crewMembers[i]))
+        {
+            ++pilots;
+        }
+
+        if (auto* h = dynamic_cast<CHost*>(crewMembers[i]))
+        {
+            if (h->GetType() == CHost::eSuper)
+            {
+                ++superHosts;
+            }
+        }
+            
+    }
+
+    bool isCargo = (dynamic_cast<CCargo*>(plane) != nullptr);
+
+    if (isCargo)
+    {
+        if (pilots < 1)
+        {
+            return false;
+        }
+    }
+    else 
+    {
+        if (pilots != 1)
+        {
+            return false;
+        }
+
+        if (superHosts > 1)
+        {
+            return false;
+        }
+    }
+
+    int minutes = flightInfo.getFlightTimeMinutes();
+    for (int i = 0; i < crewCount; ++i)
+    {
+        if (crewMembers[i])
+        {
+            *(crewMembers[i]) += minutes;
+        }
+    }
+    
+    plane->OnTakeoff(minutes);
+    return true;
 }

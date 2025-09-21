@@ -12,6 +12,11 @@ void CCrewMember::init(string name, int airTimeMinutes, CAddress address)
     UpdateMinutes(airTimeMinutes);
 }
 
+int CCrewMember::addMinutesByRole(int baseMinutes) const
+{
+    return baseMinutes;
+}
+
 CCrewMember::CCrewMember(string name,  int airTimeMinutes, CAddress address)
     : name(""), address(CAddress(0, "", "Tel Aviv")), airTimeMinutes(0), memberID(nextID++)
 {
@@ -47,6 +52,16 @@ CAddress CCrewMember::getAddress() const
 {
     return address;
 }
+
+//const string& CCrewMember::GetName() const
+//{
+//    return name;
+//}
+//
+//const CAddress& CCrewMember::GetAddress() const
+//{
+//    return address;
+//}
 
 int CCrewMember::getAirTimeMinutes() const
 {
@@ -87,22 +102,35 @@ bool CCrewMember::operator+=(int minutes)
 {
     if (minutes > 0)
     {
-        airTimeMinutes += minutes;
+        int add = addMinutesByRole(minutes);
+        UpdateMinutes(add);
         return true;
     }
         
     return false;
 }
 
-bool CCrewMember::operator==(const CCrewMember& other) const
-{
-    return this->memberID == other.memberID;
-}
-
 ostream& operator<<(ostream& out, const CCrewMember& crewMember)
 {
-    out << "Crewmember " << crewMember.name
-        << " minutes "
-        << crewMember.airTimeMinutes << endl;
+    crewMember.Print(out);
     return out;
+}
+
+void CCrewMember::OnGift(ostream& out) const
+{
+    out << "Thank you!" << endl;
+}
+
+bool CCrewMember::Equals(const CCrewMember& other) const
+{
+    return name == other.name;
+}
+
+bool CCrewMember::operator==(const CCrewMember& other) const
+{
+    return Equals(other);
+}
+bool CCrewMember::operator!=(const CCrewMember& other) const
+{
+    return !Equals(other);
 }
