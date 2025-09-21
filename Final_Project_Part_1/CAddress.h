@@ -27,7 +27,6 @@ public:
     string GetCurrentAddress() const;
 
     void UpdateAddress(string city, string street, int houseNumber);
-    void Print() const;
 
     CAddress& operator=(const CAddress& other);
 

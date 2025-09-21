@@ -27,8 +27,6 @@ public:
     string getModelName() const;
     int getSeatsNumber() const;
 
-    void Print() const;
-
     CPlane& operator=(const CPlane& other);
 
     bool operator==(const CPlane& other) const;
@@ -38,4 +36,7 @@ public:
     CPlane& operator++();
 
     CPlane operator++(int);
+    virtual void Print(ostream& out) const;
+    virtual CPlane* Clone() const;
+    virtual void OnTakeoff(int minutes) const;
 };

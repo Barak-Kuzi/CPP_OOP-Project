@@ -12,7 +12,7 @@ CFlightInfo::CFlightInfo(string destination, int flightNumber, int flightTimeMin
 CFlightInfo::CFlightInfo(const CFlightInfo& other)
     : destination(""), flightNumber(0), flightTimeMinutes(0), flightDistanceKm(0)
 {
-    init(other.destination, other.flightNumber, other.flightTimeMinutes, other.flightDistanceKm);
+    *this = other;
 }
 
 CFlightInfo::~CFlightInfo()
@@ -69,18 +69,6 @@ void CFlightInfo::setFlightDistanceKm(int flightDistanceKm)
     {
         this->flightDistanceKm = flightDistanceKm;
     }
-}
-
-void CFlightInfo::Print() const
-{
-    cout << "Flight Info dest: "
-        << destination
-        << " Number "
-        << flightNumber
-        << " minutes "
-        << flightTimeMinutes
-        << " KM "
-        << flightDistanceKm << endl;
 }
 
 void CFlightInfo::init(string destination, int flightNumber, int flightTimeMinutes, int flightDistanceKm)

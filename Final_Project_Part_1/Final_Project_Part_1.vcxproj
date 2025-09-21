@@ -124,20 +124,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CAddress.h" />
+    <ClInclude Include="Cargo.h" />
     <ClInclude Include="CCrewMember.h" />
     <ClInclude Include="CFlightCompany.h" />
     <ClInclude Include="CFlightInfo.h" />
     <ClInclude Include="CPlane.h" />
     <ClInclude Include="CFlight.h" />
+    <ClInclude Include="Host.h" />
+    <ClInclude Include="Pilot.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAddress.cpp" />
+    <ClCompile Include="Cargo.cpp" />
     <ClCompile Include="CCrewMember.cpp" />
     <ClCompile Include="CFlightCompany.cpp" />
     <ClCompile Include="CFlightInfo.cpp" />
     <ClCompile Include="CPlane.cpp" />
     <ClCompile Include="CFlight.cpp" />
+    <ClCompile Include="Host.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Pilot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include=".gitignore.txt" />

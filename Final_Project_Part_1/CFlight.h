@@ -30,7 +30,7 @@ public:
 
     CFlight& operator=(const CFlight& other);
 
-    const CFlightInfo getFlightInfo() const;
+    const CFlightInfo GetFlightInfo() const;
     void SetPlane(CPlane* newPlane);
 
     const CPlane getPlane() const;
@@ -38,8 +38,11 @@ public:
     const int getCrewMembersCount() const;
 
     friend CFlight& operator+(CFlight& f, const CCrewMember& crew);
+    friend CFlight& operator+(CFlight& f, const CCrewMember* pCrew);
 
     friend ostream& operator<<(ostream& out, const CFlight& flight);
 
     bool operator==(const CFlight& other) const;
+
+    bool TakeOff();
 };

@@ -1,5 +1,8 @@
 #include <iostream>
 #include "CFlightCompany.h"
+#include "Pilot.h"
+#include "Host.h"
+#include "Cargo.h"
 
 using namespace std;
 
@@ -82,7 +85,7 @@ bool CFlightCompany::AddCrewMember(const CCrewMember& crew) {
         }
     }
 
-    crews[crewCount] = new CCrewMember(crew);
+    crews[crewCount] = crew.Clone();
     crewCount++;
 
     return true;
@@ -102,7 +105,7 @@ bool CFlightCompany::AddPlane(const CPlane& plane) {
         }
     }
 
-    planes[planeCount] = new CPlane(plane);
+    planes[planeCount] = plane.Clone();
     planeCount++;
     
     return true;
@@ -138,10 +141,10 @@ CCrewMember* CFlightCompany::getCrewMemberById(int id) {
     return nullptr;
 }
 
-CFlight* CFlightCompany::getFlightByNumber(int flightNum) {
+CFlight* CFlightCompany::GetFlightByNum(int flightNum) {
     for (int i = 0; i < flightCount; i++) 
     {
-        if (flights[i]->getFlightInfo().GetFNum() == flightNum)
+        if (flights[i]->GetFlightInfo().GetFNum() == flightNum)
         {
             return flights[i];
         }
@@ -151,7 +154,7 @@ CFlight* CFlightCompany::getFlightByNumber(int flightNum) {
 
 bool CFlightCompany::AddCrewToFlight(int flightNum, int crewMemberId) {
     CCrewMember* crewMember = getCrewMemberById(crewMemberId);
-    CFlight* flight = getFlightByNumber(flightNum);
+    CFlight* flight = GetFlightByNum(flightNum);
 
     if (!crewMember || !flight)
     {
@@ -205,3 +208,59 @@ ostream& operator<<(ostream& os, const CFlightCompany& comp) {
     return os;
 }
 
+CCrewMember* CFlightCompany::GetCrewMember(int index) const
+{
+    if (index < 0 || index >= crewCount)
+    {
+        return nullptr;
+    }
+
+    return crews[index];
+}
+
+int CFlightCompany::GetCargoCount() const
+{
+    int cnt = 0;
+    for (int i = 0; i < planeCount; ++i)
+    {
+        if (dynamic_cast<CCargo*>(planes[i]))
+        {
+            ++cnt;
+        }
+    }
+        
+    return cnt;
+}
+
+void CFlightCompany::PilotsToSimulator()
+{
+    for (int i = 0; i < crewCount; ++i)
+    {
+        if (auto* p = dynamic_cast<CPilot*>(crews[i]))
+        {
+            p->OnSimulator(cout);
+        }
+    }
+}
+
+void CFlightCompany::CrewGetPresent()
+{
+    for (int i = 0; i < crewCount; ++i)
+    {
+        if (crews[i])
+        {
+            crews[i]->OnGift(cout);
+        }
+    }
+}
+
+void CFlightCompany::CrewGetUniform()
+{
+    for (int i = 0; i < crewCount; ++i)
+    {
+        if (crews[i])
+        {
+            crews[i]->OnUniform(cout);
+        }
+    }
+}

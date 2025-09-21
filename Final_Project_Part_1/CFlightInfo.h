@@ -32,8 +32,6 @@ public:
     void setFlightTimeMinutes(int flightTimeMinutes);
     void setFlightDistanceKm(int flightDistanceKm);
 
-    void Print() const;
-
     CFlightInfo& operator=(const CFlightInfo& other);
 
     bool operator==(const CFlightInfo& other) const;
