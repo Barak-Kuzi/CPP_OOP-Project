@@ -43,25 +43,15 @@ bool CCrewMember::UpdateMinutes(int minutes)
     return false;
 }
 
-string CCrewMember::getName() const
+const string& CCrewMember::getName() const
 {
     return name;
 }
 
-CAddress CCrewMember::getAddress() const
+const CAddress& CCrewMember::getAddress() const
 {
     return address;
 }
-
-//const string& CCrewMember::GetName() const
-//{
-//    return name;
-//}
-//
-//const CAddress& CCrewMember::GetAddress() const
-//{
-//    return address;
-//}
 
 int CCrewMember::getAirTimeMinutes() const
 {

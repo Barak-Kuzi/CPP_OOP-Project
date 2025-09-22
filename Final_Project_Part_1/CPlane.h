@@ -21,7 +21,7 @@ public:
 
     CPlane(const CPlane& other);
 
-    ~CPlane();
+    virtual ~CPlane();
 
     int getSerialNumber() const;
     string getModelName() const;

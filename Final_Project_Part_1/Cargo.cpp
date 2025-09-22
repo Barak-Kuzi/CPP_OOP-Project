@@ -9,6 +9,31 @@ CCargo::CCargo(int seats, const string& model, float maxKgVal, float maxVolM3)
 {
 }
 
+CCargo::CCargo(const CCargo& other)
+    : CPlane(other),
+    maxKg(other.GetMaxKg()),
+    maxVol(other.GetMaxVol()),
+    currKg(other.GetCurrKg()),
+    currVol(other.GetCurrVol())
+{
+}
+
+CCargo& CCargo::operator=(const CCargo& other)
+{
+    if (this != &other) {
+        CPlane::operator=(other);
+        maxKg = other.GetMaxKg();
+        maxVol = other.GetMaxVol();
+        currKg = other.GetCurrKg();
+        currVol = other.GetCurrVol();
+    }
+    return *this;
+}
+
+CCargo::~CCargo()
+{
+}
+
 bool CCargo::Load(float kg, float volM3)
 {
     if (volM3 < 0.0f || kg < 0.0f)

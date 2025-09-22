@@ -5,6 +5,25 @@ CHost::CHost(const string& name, HostType t, CAddress* address, int minutes)
 {
 }
 
+CHost::CHost(const CHost& other)
+    : CCrewMember(other), type(other.type)
+{
+}
+
+CHost& CHost::operator=(const CHost& other)
+{
+    if (this != &other)
+    {
+        CCrewMember::operator=(other);
+        type = other.type;
+    }
+    return *this;
+}
+
+CHost::~CHost()
+{
+}
+
 CHost::HostType CHost::GetType() const 
 { 
     return type; 
@@ -12,7 +31,7 @@ CHost::HostType CHost::GetType() const
 
 void CHost::SetType(HostType type) 
 { 
-    type = type;
+    this->type = type;
 }
 
 bool CHost::Equals(const CCrewMember& other) const

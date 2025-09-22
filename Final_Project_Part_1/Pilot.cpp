@@ -6,6 +6,25 @@ CPilot::CPilot(const string& name, bool captain, CAddress* address, int minutes)
 {
 }
 
+CPilot::CPilot(const CPilot& other)
+    : CCrewMember(other), isCaptain(other.IsCaptain())
+{
+}
+
+CPilot::~CPilot()
+{
+}
+
+CPilot& CPilot::operator=(const CPilot& other)
+{
+    if (this != &other)
+    {
+        CCrewMember::operator=(other);
+        isCaptain = other.IsCaptain();
+    }
+    return *this;
+}
+
 bool CPilot::IsCaptain() const 
 { 
     return isCaptain;

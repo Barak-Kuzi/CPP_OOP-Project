@@ -13,14 +13,19 @@ private:
     HostType type;
 
 public:
+    CHost() = delete;
     CHost(const string& name = "",
         HostType t = eRegular,
         CAddress* addr = new CAddress(0, "", "Tel Aviv"),
         int minutes = 0
     );
 
+    CHost(const CHost& other);
+    CHost& operator=(const CHost& other);
+    ~CHost();
+
     HostType GetType() const;
-    void     SetType(HostType t);
+    void SetType(HostType t);
 
     bool Equals(const CCrewMember& other) const override;
 

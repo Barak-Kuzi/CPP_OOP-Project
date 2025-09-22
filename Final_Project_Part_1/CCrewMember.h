@@ -26,12 +26,12 @@ public:
 
     CCrewMember(const CCrewMember& other);
 
-    ~CCrewMember();
+    virtual ~CCrewMember();
 
     bool UpdateMinutes(int minutes);
 
-    string getName() const;
-    CAddress getAddress() const;
+    const string& getName() const;
+    const CAddress& getAddress() const;
     int getAirTimeMinutes() const;
     int getMemberID() const;
 
