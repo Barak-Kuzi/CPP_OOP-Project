@@ -3,8 +3,6 @@
 
 using namespace std;
 
-int CCrewMember::nextID = CCrewMember::START_ID;
-
 void CCrewMember::init(string name, int airTimeMinutes, CAddress address)
 {
     setName(name);
@@ -18,13 +16,13 @@ int CCrewMember::addMinutesByRole(int baseMinutes) const
 }
 
 CCrewMember::CCrewMember(string name,  int airTimeMinutes, CAddress address)
-    : name(""), address(CAddress(0, "", "Tel Aviv")), airTimeMinutes(0), memberID(nextID++)
+    : name(""), address(CAddress(0, "", "Tel Aviv")), airTimeMinutes(0)
 {
     init(name, airTimeMinutes, address);
 }
 
 CCrewMember::CCrewMember(const CCrewMember& other)
-    : name(""), address(CAddress(0, "", "Tel Aviv")), airTimeMinutes(0), memberID(nextID++)
+    : name(""), address(CAddress(0, "", "Tel Aviv")), airTimeMinutes(0)
 {
     *this = other;
 }
@@ -73,17 +71,11 @@ void CCrewMember::setAddress(CAddress address)
     this->address = address;
 }
 
-int CCrewMember::getMemberID() const
-{
-    return this->memberID;
-}
-
 CCrewMember& CCrewMember::operator=(const CCrewMember& other)
 {
     if (this != &other)
     {
         init(other.name, other.airTimeMinutes, other.address);
-        this->memberID = other.memberID;
     }
     return *this;
 }
