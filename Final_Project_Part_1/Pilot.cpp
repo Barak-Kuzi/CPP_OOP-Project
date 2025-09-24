@@ -6,11 +6,10 @@ void CPilot::init(const string& name, bool captain, const CAddress& address, int
     SetCaptain(captain);
 }
 
-CPilot::CPilot(const string& name, bool captain, CAddress* address, int minutes)
+CPilot::CPilot(const string& name, bool captain, const CAddress* address, int minutes)
     : CCrewMember(name, minutes, address ? *address : CAddress(0, "", "Tel Aviv")), isCaptain(false)
 {
     init(name, captain, address ? *address : CAddress(0, "", "Tel Aviv"), minutes);
-    SetCaptain(captain);
 }
 
 CPilot::CPilot(const CPilot& other)

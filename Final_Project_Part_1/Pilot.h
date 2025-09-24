@@ -17,7 +17,7 @@ public:
     CPilot() = delete;
     CPilot(const string& name = "",
         bool captain = false,
-        CAddress* address = nullptr,
+        const CAddress* address = nullptr,
         int minutes = 0
         );
 
