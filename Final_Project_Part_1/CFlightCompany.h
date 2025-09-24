@@ -25,8 +25,7 @@ private:
     CFlight* flights[MAX_FLIGHTS];
     int flightCount;
 
-
-    CCrewMember* getCrewMemberById(int id);
+    CCrewMember* getCrewMemberByName(const string& name);
     void initFlightCompanyArrays();
 
 public:
@@ -50,7 +49,7 @@ public:
 
     bool AddFlight(const CFlight& flight);
 
-    bool AddCrewToFlight(int flightNum, int crewMemberId);
+    bool AddCrewToFlight(int flightNum, string name);
 
     CPlane* GetPlane(int index);
 

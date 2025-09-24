@@ -8,16 +8,22 @@ class CPilot : public CCrewMember
 {
 private:
     bool isCaptain;
+    void init(const string& name, bool captain, const CAddress& address, int minutes);
 
 protected:
     int addMinutesByRole(int baseMinutes) const override;
 
 public:
+    CPilot() = delete;
     CPilot(const string& name = "",
         bool captain = false,
-        CAddress *address = nullptr,
+        const CAddress* address = nullptr,
         int minutes = 0
         );
+
+    CPilot(const CPilot& other);
+    CPilot& operator=(const CPilot& other);
+    ~CPilot();
 
     bool IsCaptain() const;
     void SetCaptain(bool captainStatus);

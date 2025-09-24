@@ -11,6 +11,7 @@ private:
     int seatsNumber;
     static int nextSerial;
 
+protected:
     void init(int seatsNumber, string modelName);
 
 public:
@@ -21,7 +22,7 @@ public:
 
     CPlane(const CPlane& other);
 
-    ~CPlane();
+    virtual ~CPlane();
 
     int getSerialNumber() const;
     string getModelName() const;

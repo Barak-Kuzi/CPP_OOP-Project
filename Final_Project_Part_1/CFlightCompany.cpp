@@ -131,9 +131,10 @@ bool CFlightCompany::AddFlight(const CFlight& flight) {
     return true;
 }
 
-CCrewMember* CFlightCompany::getCrewMemberById(int id) {
+CCrewMember* CFlightCompany::getCrewMemberByName(const string& name)
+{
     for (int i = 0; i < crewCount; i++) {
-        if (crews[i]->getMemberID() == id)
+        if (crews[i]->getName() == name)
         {
             return crews[i];
         }
@@ -152,8 +153,8 @@ CFlight* CFlightCompany::GetFlightByNum(int flightNum) {
     return nullptr;
 }
 
-bool CFlightCompany::AddCrewToFlight(int flightNum, int crewMemberId) {
-    CCrewMember* crewMember = getCrewMemberById(crewMemberId);
+bool CFlightCompany::AddCrewToFlight(int flightNum, string name) {
+    CCrewMember* crewMember = getCrewMemberByName(name);
     CFlight* flight = GetFlightByNum(flightNum);
 
     if (!crewMember || !flight)
