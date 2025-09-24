@@ -1,14 +1,22 @@
 #include "Pilot.h"
 
-CPilot::CPilot(const string& name, bool captain, CAddress* address, int minutes)
-    : CCrewMember(name, minutes, address ? *address : CAddress(0, "", "Tel Aviv")),
-    isCaptain(captain)
+void CPilot::init(const string& name, bool captain, const CAddress& address, int minutes)
 {
+    CCrewMember::init(name, minutes, address);
+    SetCaptain(captain);
+}
+
+CPilot::CPilot(const string& name, bool captain, CAddress* address, int minutes)
+    : CCrewMember(name, minutes, address ? *address : CAddress(0, "", "Tel Aviv")), isCaptain(false)
+{
+    init(name, captain, address ? *address : CAddress(0, "", "Tel Aviv"), minutes);
+    SetCaptain(captain);
 }
 
 CPilot::CPilot(const CPilot& other)
     : CCrewMember(other), isCaptain(other.IsCaptain())
 {
+    SetCaptain(other.IsCaptain());
 }
 
 CPilot::~CPilot()
@@ -20,7 +28,7 @@ CPilot& CPilot::operator=(const CPilot& other)
     if (this != &other)
     {
         CCrewMember::operator=(other);
-        isCaptain = other.IsCaptain();
+        SetCaptain(other.IsCaptain());
     }
     return *this;
 }

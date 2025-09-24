@@ -12,11 +12,14 @@ public:
 private:
     HostType type;
 
+    void init(const string& name, HostType t, const CAddress& address, int minutes);
+    bool isValidHostType(HostType t);
+
 public:
     CHost() = delete;
     CHost(const string& name = "",
         HostType t = eRegular,
-        CAddress* addr = new CAddress(0, "", "Tel Aviv"),
+        CAddress addr = CAddress(0, "", "Tel Aviv"),
         int minutes = 0
     );
 

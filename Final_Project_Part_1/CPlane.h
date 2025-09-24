@@ -11,6 +11,7 @@ private:
     int seatsNumber;
     static int nextSerial;
 
+protected:
     void init(int seatsNumber, string modelName);
 
 public:

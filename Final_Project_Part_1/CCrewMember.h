@@ -11,10 +11,9 @@ private:
     int airTimeMinutes;
     CAddress address;
 
-    void init (string name, int airTimeMinutes = 0, CAddress address = CAddress(0, "", "Tel Aviv"));
-
 protected:
     virtual int addMinutesByRole(int baseMinutes) const;
+    void init(string name, int airTimeMinutes = 0, CAddress address = CAddress(0, "", "Tel Aviv"));
 
 public:
     CCrewMember() = delete;

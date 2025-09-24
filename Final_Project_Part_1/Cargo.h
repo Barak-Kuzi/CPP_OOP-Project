@@ -10,14 +10,17 @@ private:
     float maxKg;   
     float maxVol;
     float currKg; 
-    float currVol; 
+    float currVol;
+
+    void init(int seats, const string& model, float maxKg, float maxVol, float currKg, float currVol);
+    bool IsPositive(float val);
 
 public:
     CCargo() = delete;
     CCargo(int seats = 0, 
         const string& model = "CargoModel",
-        float maxKgVal = 0.0f,
-        float maxVolM3 = 0.0f);
+        float maxKg = 0.0f,
+        float maxVol = 0.0f);
 
     CCargo(const CCargo& other);
     CCargo& operator=(const CCargo& other);
@@ -25,16 +28,18 @@ public:
 
     bool Load(float kg, float volM3);
 
-    void PrintTakeoffLog(int minutes, ostream& out) const;
     void OnTakeoff(int minutes) const override;
+
+    void  SetMaxKg(float v);
+    void  SetMaxVol(float v);
+    void  SetCurrKg(float v);
+    void  SetCurrVol(float v);
 
     float GetMaxKg() const;
     float GetMaxVol() const;
     float GetCurrKg() const;
     float GetCurrVol() const;
 
-    void ResetCargo() { currKg = 0.0f; currVol = 0.0f; }
-    friend ostream& operator<<(ostream& out, const CCargo& c);
     void Print(ostream& out) const override;
 
     CPlane* Clone() const override;

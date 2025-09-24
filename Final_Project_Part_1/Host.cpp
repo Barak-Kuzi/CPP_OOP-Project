@@ -1,13 +1,26 @@
 #include "Host.h"
 
-CHost::CHost(const string& name, HostType t, CAddress* address, int minutes)
-    : CCrewMember(name, minutes, *address), type(t)
+void CHost::init(const string& name, HostType t, const CAddress& address, int minutes)
 {
+    CCrewMember::init(name, minutes, address);
+    SetType(t);
+}
+
+bool CHost::isValidHostType(HostType t)
+{
+    return t == CHost::eRegular || t == CHost::eSuper || t == CHost::eCalcelan;
+}
+
+CHost::CHost(const string& name, HostType t, CAddress address, int minutes)
+    : CCrewMember(name, minutes, address), type(t)
+{
+    init(name, t, address, minutes);
 }
 
 CHost::CHost(const CHost& other)
     : CCrewMember(other), type(other.type)
 {
+    SetType(other.type);
 }
 
 CHost& CHost::operator=(const CHost& other)
@@ -15,7 +28,7 @@ CHost& CHost::operator=(const CHost& other)
     if (this != &other)
     {
         CCrewMember::operator=(other);
-        type = other.type;
+        SetType(other.type);
     }
     return *this;
 }
@@ -29,9 +42,12 @@ CHost::HostType CHost::GetType() const
     return type; 
 }
 
-void CHost::SetType(HostType type) 
-{ 
-    this->type = type;
+void CHost::SetType(HostType t) 
+{
+    if (isValidHostType(t))
+    {
+        this->type = t;
+    }
 }
 
 bool CHost::Equals(const CCrewMember& other) const

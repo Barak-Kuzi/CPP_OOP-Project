@@ -1,12 +1,27 @@
 #include "Cargo.h"
 
-CCargo::CCargo(int seats, const string& model, float maxKgVal, float maxVolM3)
+void CCargo::init(int seats, const string& model, float maxKg, float maxVol, float currKg, float currVol)
+{
+    CPlane::init(seats, model);
+    SetMaxKg(maxKg);
+    SetMaxVol(maxVol);
+    SetCurrKg(currKg);
+    SetCurrVol(currVol);
+}
+
+bool CCargo::IsPositive(float val)
+{
+    return val > 0.0f;
+}
+
+CCargo::CCargo(int seats, const string& model, float maxKg, float maxVol)
     : CPlane(seats, model),
-    maxKg(maxKgVal),
-    maxVol(maxVolM3),
+    maxKg(maxKg),
+    maxVol(maxVol),
     currKg(0.0f),
     currVol(0.0f)
 {
+    init(seats, model, maxKg, maxVol, 0.0f, 0.0f);
 }
 
 CCargo::CCargo(const CCargo& other)
@@ -34,6 +49,43 @@ CCargo::~CCargo()
 {
 }
 
+
+void CCargo::SetMaxKg(float v)
+{
+    if (!IsPositive(v) || currKg > v)
+    {
+        return;
+    }
+    maxKg = v;
+}
+
+void CCargo::SetMaxVol(float v)
+{
+    if (!IsPositive(v) || currVol > v)
+    {
+        return;
+    }
+    maxVol = v;
+}
+
+void CCargo::SetCurrKg(float v)
+{
+    if (!IsPositive(v) || (maxKg > 0.0f && v > maxKg))
+    {
+        return;
+    }
+    currKg = v;
+}
+
+void CCargo::SetCurrVol(float v)
+{
+    if (!IsPositive(v) || (maxVol > 0.0f && v > maxVol))
+    {
+        return;
+    }
+    currVol = v;
+}
+
 bool CCargo::Load(float kg, float volM3)
 {
     if (volM3 < 0.0f || kg < 0.0f)
@@ -54,11 +106,6 @@ bool CCargo::Load(float kg, float volM3)
     currVol += volM3;
     currKg += kg;
     return true;
-}
-
-void CCargo::PrintTakeoffLog(int minutes, ostream& out) const
-{
-    out << "Need to add " << minutes << " to my log book" << endl;
 }
 
 void CCargo::OnTakeoff(int minutes) const
