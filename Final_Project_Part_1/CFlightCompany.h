@@ -66,4 +66,13 @@ public:
     void CrewGetPresent();
 
     void CrewGetUniform();
+
+    CPlane& operator[](int index);
+    const CPlane& operator[](int index) const;
+
+    void SaveToFile(const char* filename) const;
+
+    CFlightCompany(const char* filename, int);
+
+    const int GetCrewCount() const;
 };

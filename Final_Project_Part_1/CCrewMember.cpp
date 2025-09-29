@@ -1,5 +1,6 @@
 #include <iostream>
 #include "CCrewMember.h"
+#include "FlightCompException.h"
 
 using namespace std;
 
@@ -80,16 +81,14 @@ CCrewMember& CCrewMember::operator=(const CCrewMember& other)
     return *this;
 }
 
-bool CCrewMember::operator+=(int minutes)
+CCrewMember& CCrewMember::operator+=(int minutes)
 {
-    if (minutes > 0)
+    if (minutes < 0)
     {
-        int add = addMinutesByRole(minutes);
-        UpdateMinutes(add);
-        return true;
+        throw CCompStringException("Air time minutes cannot be negative");
     }
-        
-    return false;
+    airTimeMinutes += addMinutesByRole(minutes);
+    return *this;
 }
 
 ostream& operator<<(ostream& out, const CCrewMember& crewMember)

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "CFlightInfo.h"
+#include "FlightCompException.h"
 
 using namespace std;
 
@@ -39,36 +40,41 @@ int CFlightInfo::getFlightDistanceKm() const
     return flightDistanceKm;
 }
 
-void CFlightInfo::setFlightNumber(int flightNumber)
+void CFlightInfo::setFlightNumber(int num)
 {
-    if (flightNumber > 0) 
+    if (num <= 0)
     {
-        this->flightNumber = flightNumber;
+        throw CCompStringException("Flight number must be positive");
     }
+   this->flightNumber = num;
 }
 
 void CFlightInfo::SetDest(string destination)
 {
-    if (!destination.empty()) 
+    if (destination.empty())
     {
-        this->destination = destination;
+        throw CCompStringException("Destination must not be empty");
     }
+        
+    this->destination = destination;
 }
 
-void CFlightInfo::setFlightTimeMinutes(int flightTimeMinutes)
+void CFlightInfo::setFlightTimeMinutes(int minutes)
 {
-    if (flightTimeMinutes > 0)
+    if (minutes <= 0)
     {
-        this->flightTimeMinutes = flightTimeMinutes;
+        throw CCompStringException("Flight minutes must be positive");
     }
+    this->flightTimeMinutes = minutes;
 }
 
-void CFlightInfo::setFlightDistanceKm(int flightDistanceKm)
+void CFlightInfo::setFlightDistanceKm(int km)
 {
-    if (flightDistanceKm > 0) 
+    if (km <= 0)
     {
-        this->flightDistanceKm = flightDistanceKm;
+        throw CCompStringException("Distance must be positive");
     }
+    this->flightDistanceKm = km;
 }
 
 void CFlightInfo::init(string destination, int flightNumber, int flightTimeMinutes, int flightDistanceKm)

@@ -30,7 +30,7 @@ public:
 
     CFlight& operator=(const CFlight& other);
 
-    const CFlightInfo GetFlightInfo() const;
+    const CFlightInfo& GetFlightInfo() const;
     void SetPlane(CPlane* newPlane);
 
     const CPlane getPlane() const;
@@ -45,4 +45,9 @@ public:
     bool operator==(const CFlight& other) const;
 
     bool TakeOff();
+    
+    CPlane* GetPlanePtr();
+    const CPlane* GetPlanePtr() const;
+
+    const CCrewMember* GetCrewMemberAt(int index) const;
 };

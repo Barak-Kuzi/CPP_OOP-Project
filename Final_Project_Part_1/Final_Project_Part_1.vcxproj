@@ -130,8 +130,10 @@
     <ClInclude Include="CFlightInfo.h" />
     <ClInclude Include="CPlane.h" />
     <ClInclude Include="CFlight.h" />
+    <ClInclude Include="FlightCompException.h" />
     <ClInclude Include="Host.h" />
     <ClInclude Include="Pilot.h" />
+    <ClInclude Include="PlaneCrewFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAddress.cpp" />
@@ -141,12 +143,15 @@
     <ClCompile Include="CFlightInfo.cpp" />
     <ClCompile Include="CPlane.cpp" />
     <ClCompile Include="CFlight.cpp" />
+    <ClCompile Include="FlightCompException.cpp" />
     <ClCompile Include="Host.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pilot.cpp" />
+    <ClCompile Include="PlaneCrewFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include=".gitignore.txt" />
+    <Text Include="Delta.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

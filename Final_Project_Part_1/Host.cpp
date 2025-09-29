@@ -1,11 +1,5 @@
 #include "Host.h"
 
-void CHost::init(const string& name, HostType t, const CAddress& address, int minutes)
-{
-    CCrewMember::init(name, minutes, address);
-    SetType(t);
-}
-
 bool CHost::isValidHostType(HostType t)
 {
     return t == CHost::eRegular || t == CHost::eSuper || t == CHost::eCalcelan;
@@ -14,7 +8,7 @@ bool CHost::isValidHostType(HostType t)
 CHost::CHost(const string& name, HostType t, CAddress address, int minutes)
     : CCrewMember(name, minutes, address), type(t)
 {
-    init(name, t, address, minutes);
+    SetType(t);
 }
 
 CHost::CHost(const CHost& other)

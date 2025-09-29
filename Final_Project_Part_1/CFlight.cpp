@@ -1,9 +1,8 @@
-//#include "CFlight.h"
-
 #include "CFlight.h"
 #include "Pilot.h"
 #include "Host.h"
 #include "Cargo.h"
+#include "FlightCompException.h"
 
 void CFlight::initCrewMembersArr()
 {
@@ -32,7 +31,6 @@ CFlight::~CFlight()
 {
     for (int i = 0; i < MAX_CREW; i++)
     {
-        delete crewMembers[i];
         crewMembers[i] = nullptr;
     }
 }
@@ -59,7 +57,7 @@ CFlight& CFlight::operator=(const CFlight& other)
     return *this;
 }
 
-const CFlightInfo CFlight::GetFlightInfo() const
+const CFlightInfo& CFlight::GetFlightInfo() const
 {
     return this->flightInfo;
 }
@@ -97,7 +95,6 @@ CFlight& operator+(CFlight& f, const CCrewMember& crew) {
                 return f;
             }
         }
-        //f.crewMembers[f.crewCount] = crew.Clone();
         f.crewMembers[f.crewCount] = const_cast<CCrewMember*>(&crew);
         f.crewCount++;
     }
@@ -163,7 +160,10 @@ bool CFlight::operator==(const CFlight& other) const
 
 bool CFlight::TakeOff()
 {
-    if (!plane) return false;
+    if (!plane)
+    {
+        throw CCompStringException("No plane attached to flight");
+    }
 
     int pilots = 0, superHosts = 0;
     for (int i = 0; i < crewCount; ++i)
@@ -194,19 +194,19 @@ bool CFlight::TakeOff()
     {
         if (pilots < 1)
         {
-            return false;
+            throw CCompStringException("Illegal takeoff: cargo flight requires at least one pilot");
         }
     }
     else 
     {
         if (pilots != 1)
         {
-            return false;
+            throw CCompStringException("Illegal takeoff: passenger flight must have exactly one pilot");
         }
 
         if (superHosts > 1)
         {
-            return false;
+            throw CCompStringException("Illegal takeoff: at most one Super-Host is allowed");
         }
     }
 
@@ -221,4 +221,24 @@ bool CFlight::TakeOff()
     
     plane->OnTakeoff(minutes);
     return true;
+}
+
+CPlane* CFlight::GetPlanePtr()
+{
+    return plane;
+}
+
+const CPlane* CFlight::GetPlanePtr() const
+{
+    return plane;
+}
+
+const CCrewMember* CFlight::GetCrewMemberAt(int index) const
+{
+    if (index < 0 || index >= crewCount)
+    {
+        throw CCompLimitException(crewCount - 1, "flight crew index");
+    }
+        
+    return crewMembers[index];
 }

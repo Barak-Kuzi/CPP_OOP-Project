@@ -40,4 +40,8 @@ public:
     virtual void Print(ostream& out) const;
     virtual CPlane* Clone() const;
     virtual void OnTakeoff(int minutes) const;
+
+    static void SetNextSerial(int next);
+    static int GetNextSerial();
+    void SetSerialNumber_ForLoad(int id);
 };

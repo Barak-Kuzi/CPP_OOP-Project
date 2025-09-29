@@ -14,6 +14,7 @@ private:
 
     void init(int seats, const string& model, float maxKg, float maxVol, float currKg, float currVol);
     bool IsPositive(float val);
+    void setMaxValues(int maxKG, int maxVolume);
 
 public:
     CCargo() = delete;
@@ -34,6 +35,7 @@ public:
     void  SetMaxVol(float v);
     void  SetCurrKg(float v);
     void  SetCurrVol(float v);
+    void SetCurrentLoad(int currKg, int maxKg, int currVol, int maxVol);
 
     float GetMaxKg() const;
     float GetMaxVol() const;

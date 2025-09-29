@@ -1,6 +1,7 @@
 #include <iostream>
 #include "CPlane.h"
 #include "Cargo.h"
+#include "FlightCompException.h"
 
 int CPlane::nextSerial = CPlane::START_ID;
 
@@ -35,15 +36,16 @@ int CPlane::getSeatsNumber() const
 
 void CPlane::init(int seatsNumber, string modelName)
 {
-    if (seatsNumber > 0)
+    if (seatsNumber <= 0)
     {
-        this->seatsNumber = seatsNumber;
+        throw CCompStringException("Seats must be positive");
     }
-
-    if (!modelName.empty())
+    if (modelName.empty())
     {
-        this->modelName = modelName;
+        throw CCompStringException("Model must not be empty");
     }
+    this->seatsNumber = seatsNumber;
+    this->modelName = modelName;
 }
 
 CPlane& CPlane::operator=(const CPlane& other)
@@ -99,4 +101,29 @@ CPlane* CPlane::Clone() const
 
 void CPlane::OnTakeoff(int minutes) const
 {
+}
+
+int CPlane::GetNextSerial()
+{
+    return nextSerial;
+}
+
+void CPlane::SetNextSerial(int next)
+{
+    if (next > 0)
+    {
+        nextSerial = next;
+    }
+}
+
+void CPlane::SetSerialNumber_ForLoad(int id)
+{
+    if (id > 0)
+    {
+        serialNumber = id;
+        if (id >= nextSerial)
+        {
+            nextSerial = id + 1;
+        }
+    }
 }

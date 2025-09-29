@@ -12,7 +12,6 @@ public:
 private:
     HostType type;
 
-    void init(const string& name, HostType t, const CAddress& address, int minutes);
     bool isValidHostType(HostType t);
 
 public:

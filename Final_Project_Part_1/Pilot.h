@@ -8,7 +8,6 @@ class CPilot : public CCrewMember
 {
 private:
     bool isCaptain;
-    void init(const string& name, bool captain, const CAddress& address, int minutes);
 
 protected:
     int addMinutesByRole(int baseMinutes) const override;

@@ -1,12 +1,13 @@
 #include "Cargo.h"
+#include "FlightCompException.h"
 
 void CCargo::init(int seats, const string& model, float maxKg, float maxVol, float currKg, float currVol)
 {
     CPlane::init(seats, model);
-    SetMaxKg(maxKg);
-    SetMaxVol(maxVol);
-    SetCurrKg(currKg);
-    SetCurrVol(currVol);
+    SetMaxKg(static_cast<float>(maxKg));
+    SetMaxVol(static_cast<float>(maxVol));
+    SetCurrKg(static_cast<float>(currKg));
+    SetCurrVol(static_cast<float>(currVol));
 }
 
 bool CCargo::IsPositive(float val)
@@ -84,6 +85,32 @@ void CCargo::SetCurrVol(float v)
         return;
     }
     currVol = v;
+}
+
+
+void CCargo::setMaxValues(int maxKG, int maxVolume)
+{
+    if (maxKG <= 0 || maxVolume <= 0)
+    {
+        throw CCompStringException("Cargo max KG/Volume must be positive");
+    }
+    this->maxKg = static_cast<float>(maxKG);
+    this->maxVol = static_cast<float>(maxVolume);
+}
+
+void CCargo::SetCurrentLoad(int currKg, int maxKg, int currVol, int maxVol)
+{
+    setMaxValues(maxKg, maxVol);
+    if (currKg < 0 || currVol < 0)
+    {
+        throw CCompStringException("Negative cargo load");
+    }
+    this->currKg = static_cast<float>(currKg);
+    this->currVol = static_cast<float>(currVol);
+    if (this->currKg > this->maxKg || this->currVol > this->maxVol)
+    {
+        throw CCompStringException("Current cargo exceeds max capacity");
+    }
 }
 
 bool CCargo::Load(float kg, float volM3)

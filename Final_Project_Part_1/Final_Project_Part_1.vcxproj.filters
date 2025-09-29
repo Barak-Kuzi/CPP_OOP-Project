@@ -42,6 +42,12 @@
     <ClInclude Include="Cargo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FlightCompException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneCrewFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPlane.cpp">
@@ -74,8 +80,15 @@
     <ClCompile Include="Cargo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FlightCompException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneCrewFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include=".gitignore.txt" />
+    <Text Include="Delta.txt" />
   </ItemGroup>
 </Project>

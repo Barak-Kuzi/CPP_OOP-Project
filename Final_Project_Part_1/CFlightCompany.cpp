@@ -1,8 +1,12 @@
 #include <iostream>
+#include <fstream>
+
 #include "CFlightCompany.h"
 #include "Pilot.h"
 #include "Host.h"
 #include "Cargo.h"
+#include "FlightCompException.h"
+#include "PlaneCrewFactory.h"
 
 using namespace std;
 
@@ -265,3 +269,259 @@ void CFlightCompany::CrewGetUniform()
         }
     }
 }
+
+CPlane& CFlightCompany::operator[](int index)
+{
+    if (index < 0 || index >= planeCount)
+    {
+        throw CCompLimitException(planeCount - 1, "plane index");
+    }
+    return *planes[index];
+}
+
+const CPlane& CFlightCompany::operator[](int index) const
+{
+    if (index < 0 || index >= planeCount)
+    {
+        throw CCompLimitException(planeCount - 1, "plane index");
+    }
+    return *planes[index];
+}
+
+void CFlightCompany::SaveToFile(const char* filename) const
+{
+    ofstream out(filename);
+    if (!out)
+    {
+        throw CCompFileException(filename, "open for write");
+    }
+        
+    out << companyName << "\n";
+
+    out << crewCount << "\n";
+    for (int i = 0; i < crewCount; ++i)
+    {
+        const CCrewMember* c = crews[i];
+        if (dynamic_cast<const CHost*>(c))
+        {
+            const CHost* h = (const CHost*)c;
+            out << 0 << " " << h->getName() << " " << h->getAirTimeMinutes()
+                << " " << (int)h->GetType() << "\n";
+        }
+        else
+        {
+            const CPilot* p = (const CPilot*)c;
+            out << 1 << " " << p->getName() << " " << p->getAirTimeMinutes() << " ";
+            const CAddress& a = p->getAddress();
+            bool has = !a.getCity().empty();
+            out << (has ? 1 : 0);
+            if (has)
+            {
+                out << " " << a.getHouseNumber() << " " << a.getStreet() << " " << a.getCity();
+            }
+            out << " " << (p->IsCaptain() ? 1 : 0) << "\n";
+        }
+    }
+
+    out << planeCount << "\n";
+
+    int lastId = 0;
+    for (int i = 0; i < planeCount; ++i)
+    {
+        if (planes[i] && planes[i]->getSerialNumber() > lastId)
+        {
+            lastId = planes[i]->getSerialNumber();
+        }
+    }
+
+    for (int i = 0; i < planeCount; ++i)
+    {
+        const CPlane* pl = planes[i];
+        if (auto cg = dynamic_cast<const CCargo*>(pl))
+        {
+            out << 1 << " " << pl->getSerialNumber() << " " << pl->getModelName()
+                << " " << pl->getSeatsNumber() << "\n";
+            out << cg->GetMaxVol() << " " << cg->GetMaxKg()
+                << " " << cg->GetCurrVol() << " " << cg->GetCurrKg() << "\n";
+        }
+        else
+        {
+            out << 0 << " " << lastId << " " << pl->getSerialNumber() << " "
+                << pl->getModelName() << " " << pl->getSeatsNumber() << "\n";
+        }
+    }
+
+    out << flightCount << "\n";
+    for (int i = 0; i < flightCount; ++i)
+    {
+        const CFlight* f = flights[i];
+        const CFlightInfo& fi = f->GetFlightInfo();
+
+        const CPlane* fp = f->GetPlanePtr();
+        if (fp)
+        {
+            out << fi.getDestination() << " " << fi.GetFNum() << " " << fi.getFlightTimeMinutes()
+                << " " << fi.getFlightDistanceKm() << " 1 " << fp->getSerialNumber() << "\n";
+        }
+        else
+        {
+            out << fi.getDestination() << " " << fi.GetFNum() << " " << fi.getFlightTimeMinutes()
+                << " " << fi.getFlightDistanceKm() << " 0 0\n";
+        }
+
+        int cnt = f->getCrewMembersCount();
+        out << cnt << "\n";
+        for (int j = 0; j < cnt; ++j)
+        {
+            const CCrewMember* c = f->GetCrewMemberAt(j);
+            if (dynamic_cast<const CHost*>(c))
+            {
+                const CHost* h = (const CHost*)c;
+                out << 0 << " " << h->getName() << " " << h->getAirTimeMinutes()
+                    << " " << (int)h->GetType() << "\n";
+            }
+            else
+            {
+                const CPilot* p = (const CPilot*)c;
+                out << 1 << " " << p->getName() << " " << p->getAirTimeMinutes() << " ";
+                const CAddress& a = p->getAddress();
+                bool has = !a.getCity().empty();
+                out << (has ? 1 : 0);
+                if (has)
+                {
+                    out << " " << a.getHouseNumber() << " " << a.getStreet() << " " << a.getCity();
+                }  
+                out << " " << (p->IsCaptain() ? 1 : 0) << "\n";
+            }
+        }
+    }
+}
+
+const int CFlightCompany::GetCrewCount() const
+{
+    return this->crewCount;
+}
+
+CFlightCompany::CFlightCompany(const char* filename, int)
+    : CFlightCompany(string(filename))
+{
+    ifstream in(filename);
+    if (!in)
+    {
+        throw CCompFileException(filename, "open for read");
+    }
+        
+    string name;
+    in >> name;
+    companyName = name;
+
+    int crewC;
+    in >> crewC;
+    for (int i = 0; i < crewC; ++i)
+    {
+        CCrewMember* c = CPlaneCrewFactory::GetCrewMemberFromFile(in);
+        if (c)
+        {
+            this->AddCrewMember(*c);
+            delete c;                
+        }
+    }
+
+    int planeC;
+    in >> planeC;
+    for (int i = 0; i < planeC; ++i)
+    {
+        CPlane* p = CPlaneCrewFactory::GetPlaneFromFile(in);
+        if (p)
+        {
+            this->AddPlane(*p);
+            delete p;
+        }
+    }
+
+    int flightC;
+    in >> flightC;
+    for (int i = 0; i < flightC; ++i)
+    {
+        string dest; int num, minutes, km; int hasPlane;
+        in >> dest >> num >> minutes >> km >> hasPlane;
+
+        CFlightInfo fi(dest, num, minutes, km);
+        CFlight* fl = new CFlight(fi);
+
+        if (hasPlane)
+        {
+            int pid; in >> pid;
+            CPlane* use = nullptr;
+            for (int k = 0; k < planeCount; ++k)
+            {
+                if (planes[k] && planes[k]->getSerialNumber() == pid)
+                {
+                    use = planes[k];
+                    break;
+                }
+            }
+            if (!use)
+            {
+                delete fl;
+                throw CCompStringException("Plane id in flight not found");
+            }
+            fl->SetPlane(use);
+        }
+        else
+        {
+            int dummy; in >> dummy;
+        }
+
+        int fCrew;
+        in >> fCrew;
+        for (int j = 0; j < fCrew; ++j)
+        {
+
+            CCrewMember* temp = CPlaneCrewFactory::GetCrewMemberFromFile(in);
+            if (!temp) continue;
+
+            CCrewMember* toAttach = nullptr;
+            const bool tempIsPilot = (dynamic_cast<CPilot*>(temp) != nullptr);
+            const string tempName = temp->getName();
+
+            for (int k = 0; k < crewCount && !toAttach; ++k)
+            {
+                if (!crews[k]) continue;
+                const bool sameType = (tempIsPilot == (dynamic_cast<CPilot*>(crews[k]) != nullptr));
+                if (sameType && crews[k]->getName() == tempName)
+                {
+                    toAttach = crews[k];
+                }
+            }
+
+            if (!toAttach)
+            {
+                this->AddCrewMember(*temp);
+                for (int k = 0; k < crewCount && !toAttach; ++k)
+                {
+                    if (!crews[k])
+                    {
+                        continue;
+                    }
+                    const bool sameType = (tempIsPilot == (dynamic_cast<CPilot*>(crews[k]) != nullptr));
+                    if (sameType && crews[k]->getName() == tempName)
+                    {
+                        toAttach = crews[k];
+                    }    
+                }
+            }
+
+            if (toAttach)
+            {
+                *fl = *fl + toAttach;
+            }
+
+            delete temp;
+        }
+
+        this->AddFlight(*fl);
+        delete fl;
+    }
+}
+

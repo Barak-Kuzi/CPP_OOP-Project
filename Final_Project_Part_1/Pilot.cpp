@@ -1,15 +1,9 @@
 #include "Pilot.h"
 
-void CPilot::init(const string& name, bool captain, const CAddress& address, int minutes)
-{
-    CCrewMember::init(name, minutes, address);
-    SetCaptain(captain);
-}
-
 CPilot::CPilot(const string& name, bool captain, const CAddress* address, int minutes)
     : CCrewMember(name, minutes, address ? *address : CAddress(0, "", "Tel Aviv")), isCaptain(false)
 {
-    init(name, captain, address ? *address : CAddress(0, "", "Tel Aviv"), minutes);
+    SetCaptain(captain);
 }
 
 CPilot::CPilot(const CPilot& other)
