@@ -27,10 +27,10 @@ public:
     int getFlightTimeMinutes() const;
     int getFlightDistanceKm() const;
 
-    void setFlightNumber(int flightNumber);
-    void SetDest(string destination);
-    void setFlightTimeMinutes(int flightTimeMinutes);
-    void setFlightDistanceKm(int flightDistanceKm);
+    void setFlightNumber(int flightNumber) noexcept(false);
+    void SetDest(string destination) noexcept(false);
+    void setFlightTimeMinutes(int flightTimeMinutes) noexcept(false);
+    void setFlightDistanceKm(int flightDistanceKm) noexcept(false);
 
     CFlightInfo& operator=(const CFlightInfo& other);
 

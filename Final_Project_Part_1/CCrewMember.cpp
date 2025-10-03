@@ -81,7 +81,7 @@ CCrewMember& CCrewMember::operator=(const CCrewMember& other)
     return *this;
 }
 
-CCrewMember& CCrewMember::operator+=(int minutes)
+CCrewMember& CCrewMember::operator+=(int minutes) noexcept(false)
 {
     if (minutes < 0)
     {

@@ -35,7 +35,7 @@ public:
 
     CCrewMember& operator=(const CCrewMember& other);
 
-    CCrewMember& operator+=(int minutes);
+    CCrewMember& operator+=(int minutes) noexcept(false);
 
     bool operator==(const CCrewMember& other) const;
     bool operator!=(const CCrewMember& other) const;

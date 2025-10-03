@@ -53,7 +53,7 @@ public:
 
     CPlane* GetPlane(int index);
 
-    friend ostream& operator<<(ostream& out, const CFlightCompany& company);
+    friend ostream& operator<<(ostream& out, const CFlightCompany& company) noexcept(false);
 
     CFlight* GetFlightByNum(int flightNumber);
 
@@ -67,12 +67,12 @@ public:
 
     void CrewGetUniform();
 
-    CPlane& operator[](int index);
-    const CPlane& operator[](int index) const;
+    CPlane& operator[](int index) noexcept(false);
+    const CPlane& operator[](int index) const noexcept(false);
 
-    void SaveToFile(const char* filename) const;
+    void SaveToFile(const char* filename) const noexcept(false);
 
-    CFlightCompany(const char* filename, int);
+    CFlightCompany(const char* filename, int) noexcept(false);
 
     const int GetCrewCount() const;
 };

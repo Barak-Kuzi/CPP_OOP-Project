@@ -34,7 +34,7 @@ int CPlane::getSeatsNumber() const
     return seatsNumber;
 }
 
-void CPlane::init(int seatsNumber, string modelName)
+void CPlane::init(int seatsNumber, string modelName) noexcept(false)
 {
     if (seatsNumber <= 0)
     {

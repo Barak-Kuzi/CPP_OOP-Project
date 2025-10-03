@@ -44,10 +44,10 @@ public:
 
     bool operator==(const CFlight& other) const;
 
-    bool TakeOff();
+    bool TakeOff() noexcept(false);
     
     CPlane* GetPlanePtr();
     const CPlane* GetPlanePtr() const;
 
-    const CCrewMember* GetCrewMemberAt(int index) const;
+    const CCrewMember* GetCrewMemberAt(int index) const noexcept(false);
 };

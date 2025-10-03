@@ -39,11 +39,59 @@ int main()
 	try 
 	{
 		CPlane p1(-34, "AirBus");
+	}
+	catch (const CFlightCompException& e) 
+	{
+		e.Show();
+	}
+
+	try 
+	{
 		CCargo c1(45, "Jumbo", -560, 200);
+	}
+	catch (const CFlightCompException& e) 
+	{
+		e.Show();
+	}
+
+	try 
+	{
 		CCargo c2(45, "Jumbo", 560, -200);
+	}
+	catch (const CFlightCompException& e)
+	{
+		e.Show();
+	}
+
+	try
+	{
 		CFlightInfo f1("London", -23, 120, 5000);
+	}
+	catch (const CFlightCompException& e)
+	{
+		e.Show();
+	}
+
+	try 
+	{
 		CFlightInfo f2("LondonVeryLong", 23, 120, 5000);
+	}
+	catch (const CFlightCompException& e) 
+	{
+		e.Show();
+	}
+
+	try 
+	{
 		CFlightInfo f3("London", 23, -120, 5000);
+	}
+	catch (const CFlightCompException& e) 
+	{
+		e.Show();
+	}
+
+	try 
+	{
 		CFlightInfo f4("London", 23, 120, -5000);
 	}
 	catch (const CFlightCompException& e) 

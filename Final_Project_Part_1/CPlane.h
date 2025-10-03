@@ -12,7 +12,7 @@ private:
     static int nextSerial;
 
 protected:
-    void init(int seatsNumber, string modelName);
+    void init(int seatsNumber, string modelName) noexcept(false);
 
 public:
     static const int START_ID = 100;

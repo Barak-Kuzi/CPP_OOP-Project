@@ -35,11 +35,11 @@ public:
 	static PlaneType GetPlaneType(const CPlane* pPlane);
 	static CrewType GetCrewType(const CCrewMember* pCrew);
 	static void GetCompanyDataFromUser(CFlightCompany& comp);
-	static CPlane* GetPlaneFromUser();
-	static CCrewMember* GetCrewFromUser();
+	static CPlane* GetPlaneFromUser() noexcept(false);
+	static CCrewMember* GetCrewFromUser() noexcept(false);
 
-	static CCrewMember* GetCrewMemberFromFile(ifstream& inFile);
-	static CPlane* GetPlaneFromFile(ifstream& inFile);
+	static CCrewMember* GetCrewMemberFromFile(ifstream& inFile) noexcept(false);
+	static CPlane* GetPlaneFromFile(ifstream& inFile) noexcept(false);
 
 
 private:

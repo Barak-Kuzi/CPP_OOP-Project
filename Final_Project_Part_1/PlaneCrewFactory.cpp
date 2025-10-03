@@ -9,7 +9,7 @@
 #include "CFlightCompany.h"
 using namespace std;
 
-static string readWord(ifstream& in) 
+static string readWord(ifstream& in) noexcept(false)
 {
     string s;
     if (!(in >> s))
@@ -19,7 +19,7 @@ static string readWord(ifstream& in)
     return s;
 }
 
-CCrewMember* CPlaneCrewFactory::GetCrewMemberFromFile(ifstream& inFile)
+CCrewMember* CPlaneCrewFactory::GetCrewMemberFromFile(ifstream& inFile) noexcept(false)
 {
     int type;
     if (!(inFile >> type))
@@ -70,7 +70,7 @@ CCrewMember* CPlaneCrewFactory::GetCrewMemberFromFile(ifstream& inFile)
     throw CCompStringException("Unknown crew type in file");
 }
 
-CPlane* CPlaneCrewFactory::GetPlaneFromFile(ifstream& inFile)
+CPlane* CPlaneCrewFactory::GetPlaneFromFile(ifstream& inFile) noexcept(false)
 {
     int type;
     if (!(inFile >> type))
@@ -134,7 +134,7 @@ string CPlaneCrewFactory::askStr(const char* prompt)
     return s;
 }
 
-CPlane* CPlaneCrewFactory::GetPlaneFromUser()
+CPlane* CPlaneCrewFactory::GetPlaneFromUser() noexcept(false)
 {
     cout << "Plane type (0=Regular,1=Cargo): ";
     int t; cin >> t;
@@ -153,7 +153,7 @@ CPlane* CPlaneCrewFactory::GetPlaneFromUser()
     throw CCompStringException("Unknown plane type");
 }
 
-CCrewMember* CPlaneCrewFactory::GetCrewFromUser()
+CCrewMember* CPlaneCrewFactory::GetCrewFromUser() noexcept(false)
 {
     cout << "Crew type (0=Host,1=Pilot): " << flush;
     int t; 

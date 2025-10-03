@@ -180,7 +180,12 @@ CPlane* CFlightCompany::GetPlane(int idx) {
     return planes[idx];
 }
 
-ostream& operator<<(ostream& os, const CFlightCompany& comp) {
+ostream& operator<<(ostream& os, const CFlightCompany& comp) noexcept(false)
+{
+    if (comp.companyName.empty())
+    {
+        throw CCompStringException("Company name is empty");
+    }
     os << "Flight company: " << comp.companyName << endl;
 
     os << "There are " << comp.crewCount << " Crew members:" << endl;
@@ -270,7 +275,7 @@ void CFlightCompany::CrewGetUniform()
     }
 }
 
-CPlane& CFlightCompany::operator[](int index)
+CPlane& CFlightCompany::operator[](int index) noexcept(false)
 {
     if (index < 0 || index >= planeCount)
     {
@@ -279,7 +284,7 @@ CPlane& CFlightCompany::operator[](int index)
     return *planes[index];
 }
 
-const CPlane& CFlightCompany::operator[](int index) const
+const CPlane& CFlightCompany::operator[](int index) const noexcept(false)
 {
     if (index < 0 || index >= planeCount)
     {
@@ -288,7 +293,7 @@ const CPlane& CFlightCompany::operator[](int index) const
     return *planes[index];
 }
 
-void CFlightCompany::SaveToFile(const char* filename) const
+void CFlightCompany::SaveToFile(const char* filename) const noexcept(false)
 {
     ofstream out(filename);
     if (!out)
@@ -402,7 +407,7 @@ const int CFlightCompany::GetCrewCount() const
     return this->crewCount;
 }
 
-CFlightCompany::CFlightCompany(const char* filename, int)
+CFlightCompany::CFlightCompany(const char* filename, int) noexcept(false)
     : CFlightCompany(string(filename))
 {
     ifstream in(filename);
@@ -410,118 +415,188 @@ CFlightCompany::CFlightCompany(const char* filename, int)
     {
         throw CCompFileException(filename, "open for read");
     }
-        
-    string name;
-    in >> name;
-    companyName = name;
 
-    int crewC;
+    in >> companyName;
+
+    int crewC = 0;
     in >> crewC;
     for (int i = 0; i < crewC; ++i)
     {
-        CCrewMember* c = CPlaneCrewFactory::GetCrewMemberFromFile(in);
-        if (c)
+        try
         {
-            this->AddCrewMember(*c);
-            delete c;                
+            CCrewMember* c = CPlaneCrewFactory::GetCrewMemberFromFile(in);
+            if (c)
+            {
+                try 
+                { 
+                    this->AddCrewMember(*c);
+                }
+                catch (const CFlightCompException& e)
+                { 
+                    e.Show();
+                }
+                delete c;
+            }
+        }
+        catch (const CFlightCompException& e)
+        {
+            e.Show();
         }
     }
 
-    int planeC;
+    int planeC = 0;
     in >> planeC;
     for (int i = 0; i < planeC; ++i)
     {
-        CPlane* p = CPlaneCrewFactory::GetPlaneFromFile(in);
-        if (p)
+        try
         {
-            this->AddPlane(*p);
-            delete p;
+            CPlane* p = CPlaneCrewFactory::GetPlaneFromFile(in);
+            if (p)
+            {
+                try 
+                { 
+                    this->AddPlane(*p);
+                }
+                catch (const CFlightCompException& e) 
+                { 
+                    e.Show();
+                }
+                delete p;
+            }
+        }
+        catch (const CFlightCompException& e)
+        {
+            e.Show();
         }
     }
 
-    int flightC;
+    int flightC = 0;
     in >> flightC;
     for (int i = 0; i < flightC; ++i)
     {
-        string dest; int num, minutes, km; int hasPlane;
-        in >> dest >> num >> minutes >> km >> hasPlane;
-
-        CFlightInfo fi(dest, num, minutes, km);
-        CFlight* fl = new CFlight(fi);
-
-        if (hasPlane)
+        try
         {
-            int pid; in >> pid;
-            CPlane* use = nullptr;
-            for (int k = 0; k < planeCount; ++k)
+            string dest; 
+            int num = 0, minutes = 0, km = 0;
+            int hasPlane = 0;
+
+            in >> dest >> num >> minutes >> km >> hasPlane;
+
+            CFlightInfo fi(dest, num, minutes, km);
+            CFlight* fl = new CFlight(fi);
+
+            if (hasPlane)
             {
-                if (planes[k] && planes[k]->getSerialNumber() == pid)
+                int pid = 0;
+                in >> pid;
+
+                CPlane* use = nullptr;
+                for (int k = 0; k < planeCount; ++k)
                 {
-                    use = planes[k];
-                    break;
+                    if (planes[k] && planes[k]->getSerialNumber() == pid)
+                    {
+                        use = planes[k];
+                        break;
+                    }
                 }
-            }
-            if (!use)
-            {
-                delete fl;
-                throw CCompStringException("Plane id in flight not found");
-            }
-            fl->SetPlane(use);
-        }
-        else
-        {
-            int dummy; in >> dummy;
-        }
-
-        int fCrew;
-        in >> fCrew;
-        for (int j = 0; j < fCrew; ++j)
-        {
-
-            CCrewMember* temp = CPlaneCrewFactory::GetCrewMemberFromFile(in);
-            if (!temp) continue;
-
-            CCrewMember* toAttach = nullptr;
-            const bool tempIsPilot = (dynamic_cast<CPilot*>(temp) != nullptr);
-            const string tempName = temp->getName();
-
-            for (int k = 0; k < crewCount && !toAttach; ++k)
-            {
-                if (!crews[k]) continue;
-                const bool sameType = (tempIsPilot == (dynamic_cast<CPilot*>(crews[k]) != nullptr));
-                if (sameType && crews[k]->getName() == tempName)
+                if (!use)
                 {
-                    toAttach = crews[k];
+                    delete fl;
+                    throw CCompStringException("Plane id in flight not found");
+                }
+                fl->SetPlane(use);
+            }
+            else
+            {
+                if (in.peek() == ' ' || in.peek() == '\t')
+                {
+                    int dummy;
+                    if (in >> dummy) 
+                    { 
+                    }
                 }
             }
 
-            if (!toAttach)
+            int fCrew = 0;
+            in >> fCrew;
+            for (int j = 0; j < fCrew; ++j)
             {
-                this->AddCrewMember(*temp);
-                for (int k = 0; k < crewCount && !toAttach; ++k)
+                try
                 {
-                    if (!crews[k])
+                    CCrewMember* temp = CPlaneCrewFactory::GetCrewMemberFromFile(in);
+                    if (!temp)
                     {
                         continue;
                     }
-                    const bool sameType = (tempIsPilot == (dynamic_cast<CPilot*>(crews[k]) != nullptr));
-                    if (sameType && crews[k]->getName() == tempName)
+
+                    CCrewMember* toAttach = nullptr;
+                    const bool tempIsPilot = (dynamic_cast<CPilot*>(temp) != nullptr);
+                    const string tempName = temp->getName();
+
+                    for (int k = 0; k < crewCount && !toAttach; ++k)
                     {
-                        toAttach = crews[k];
-                    }    
+                        if (!crews[k])
+                        {
+                            continue;
+                        }
+                        const bool sameType = (tempIsPilot == (dynamic_cast<CPilot*>(crews[k]) != nullptr));
+                        if (sameType && crews[k]->getName() == tempName)
+                        {
+                            toAttach = crews[k];
+                        }
+                    }
+
+                    if (!toAttach)
+                    {
+                        try 
+                        { 
+                            this->AddCrewMember(*temp);
+                        }
+                        catch (const CFlightCompException& e)
+                        { 
+                            e.Show();
+                        }
+                        for (int k = 0; k < crewCount && !toAttach; ++k)
+                        {
+                            if (!crews[k])
+                            {
+                                continue;
+                            }
+                            const bool sameType = (tempIsPilot == (dynamic_cast<CPilot*>(crews[k]) != nullptr));
+                            if (sameType && crews[k]->getName() == tempName)
+                            {
+                                toAttach = crews[k];
+                            }
+                        }
+                    }
+
+                    if (toAttach)
+                    {
+                        *fl = *fl + toAttach;
+                    }
+
+                    delete temp;
+                }
+                catch (const CFlightCompException& e)
+                {
+                    e.Show();
                 }
             }
 
-            if (toAttach)
-            {
-                *fl = *fl + toAttach;
+            try 
+            { 
+                this->AddFlight(*fl);
+            }
+            catch (const CFlightCompException& e) 
+            { 
+                e.Show();
             }
 
-            delete temp;
+            delete fl;
         }
-
-        this->AddFlight(*fl);
-        delete fl;
+        catch (const CFlightCompException& e)
+        {
+            e.Show();
+        }
     }
 }
-

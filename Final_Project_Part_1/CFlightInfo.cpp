@@ -40,7 +40,7 @@ int CFlightInfo::getFlightDistanceKm() const
     return flightDistanceKm;
 }
 
-void CFlightInfo::setFlightNumber(int num)
+void CFlightInfo::setFlightNumber(int num) noexcept(false)
 {
     if (num <= 0)
     {
@@ -49,7 +49,7 @@ void CFlightInfo::setFlightNumber(int num)
    this->flightNumber = num;
 }
 
-void CFlightInfo::SetDest(string destination)
+void CFlightInfo::SetDest(string destination) noexcept(false)
 {
     if (destination.empty())
     {
@@ -59,7 +59,7 @@ void CFlightInfo::SetDest(string destination)
     this->destination = destination;
 }
 
-void CFlightInfo::setFlightTimeMinutes(int minutes)
+void CFlightInfo::setFlightTimeMinutes(int minutes) noexcept(false)
 {
     if (minutes <= 0)
     {
@@ -68,7 +68,7 @@ void CFlightInfo::setFlightTimeMinutes(int minutes)
     this->flightTimeMinutes = minutes;
 }
 
-void CFlightInfo::setFlightDistanceKm(int km)
+void CFlightInfo::setFlightDistanceKm(int km) noexcept(false)
 {
     if (km <= 0)
     {

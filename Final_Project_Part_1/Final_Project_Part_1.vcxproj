@@ -143,7 +143,6 @@
     <ClCompile Include="CFlightInfo.cpp" />
     <ClCompile Include="CPlane.cpp" />
     <ClCompile Include="CFlight.cpp" />
-    <ClCompile Include="FlightCompException.cpp" />
     <ClCompile Include="Host.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pilot.cpp" />

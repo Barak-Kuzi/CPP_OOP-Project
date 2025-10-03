@@ -158,7 +158,7 @@ bool CFlight::operator==(const CFlight& other) const
     return (flightInfo == other.flightInfo);
 }
 
-bool CFlight::TakeOff()
+bool CFlight::TakeOff() noexcept(false)
 {
     if (!plane)
     {
@@ -233,7 +233,7 @@ const CPlane* CFlight::GetPlanePtr() const
     return plane;
 }
 
-const CCrewMember* CFlight::GetCrewMemberAt(int index) const
+const CCrewMember* CFlight::GetCrewMemberAt(int index) const noexcept(false)
 {
     if (index < 0 || index >= crewCount)
     {

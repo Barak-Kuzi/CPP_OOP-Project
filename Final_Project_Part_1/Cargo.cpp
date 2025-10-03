@@ -12,7 +12,7 @@ void CCargo::init(int seats, const string& model, float maxKg, float maxVol, flo
 
 bool CCargo::IsPositive(float val)
 {
-    return val > 0.0f;
+    return val >= 0.0f;
 }
 
 CCargo::CCargo(int seats, const string& model, float maxKg, float maxVol)
@@ -71,10 +71,14 @@ void CCargo::SetMaxVol(float v)
 
 void CCargo::SetCurrKg(float v)
 {
-    if (!IsPositive(v) || (maxKg > 0.0f && v > maxKg))
-    {
-        return;
-    }
+    //if (!IsPositive(v) || (maxKg > 0.0f && v > maxKg))
+    //{
+    //    return;
+    //}
+    if (!IsPositive(v))
+        throw CCompStringException("Current KG must be positive");
+    if (maxKg > 0.0f && v > maxKg)
+        throw CCompStringException("Current KG exceeds max KG");
     currKg = v;
 }
 
@@ -88,7 +92,7 @@ void CCargo::SetCurrVol(float v)
 }
 
 
-void CCargo::setMaxValues(int maxKG, int maxVolume)
+void CCargo::setMaxValues(int maxKG, int maxVolume) noexcept(false)
 {
     if (maxKG <= 0 || maxVolume <= 0)
     {
@@ -98,7 +102,7 @@ void CCargo::setMaxValues(int maxKG, int maxVolume)
     this->maxVol = static_cast<float>(maxVolume);
 }
 
-void CCargo::SetCurrentLoad(int currKg, int maxKg, int currVol, int maxVol)
+void CCargo::SetCurrentLoad(int currKg, int maxKg, int currVol, int maxVol) noexcept(false)
 {
     setMaxValues(maxKg, maxVol);
     if (currKg < 0 || currVol < 0)
