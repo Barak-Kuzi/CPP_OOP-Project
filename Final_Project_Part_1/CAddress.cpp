@@ -95,5 +95,5 @@ ostream& operator<<(ostream& out, const CAddress& address)
 
 string CAddress::GetCurrentAddress() const
 {
-    return street + " " + to_string(houseNumber) + "  " + city + "\n";
+    return street + " " + to_string(houseNumber) + "  " + city;
 }
