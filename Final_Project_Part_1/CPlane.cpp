@@ -5,7 +5,7 @@
 
 int CPlane::nextSerial = CPlane::START_ID;
 
-CPlane::CPlane(int seatsNumber, string modelName) : serialNumber(nextSerial++), seatsNumber(0), modelName("")
+CPlane::CPlane(int seatsNumber, string modelName) : serialNumber(0), seatsNumber(0), modelName("")
 {
     init(seatsNumber, modelName);
 }

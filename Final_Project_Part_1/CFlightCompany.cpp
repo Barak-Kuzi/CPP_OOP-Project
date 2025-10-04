@@ -110,8 +110,13 @@ bool CFlightCompany::AddPlane(const CPlane& plane) {
             return false;
         }
     }
+    CPlane* newPlane = plane.Clone();
 
-    planes[planeCount] = plane.Clone();
+    if (newPlane->getSerialNumber() <= 0)
+    {
+        newPlane->SetSerialNumber_ForLoad(CPlane::GetNextSerial());
+    }
+    planes[planeCount] = newPlane;
     planeCount++;
     
     return true;

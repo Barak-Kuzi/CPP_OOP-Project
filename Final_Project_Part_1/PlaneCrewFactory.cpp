@@ -228,7 +228,10 @@ void CPlaneCrewFactory::GetCompanyDataFromUser(CFlightCompany& comp)
                 break;
             }
         }
-        CPlane::SetNextSerial(lastId + 1);
+        if (lastId > 0 && lastId + 1 > CPlane::GetNextSerial())
+        {
+            CPlane::SetNextSerial(lastId + 1);
+        }
 
         CPlane* pl = GetPlaneFromUser();
         if (pl)

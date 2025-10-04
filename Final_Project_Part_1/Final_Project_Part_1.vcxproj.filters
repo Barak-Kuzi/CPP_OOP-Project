@@ -80,9 +80,6 @@
     <ClCompile Include="Cargo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FlightCompException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PlaneCrewFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
