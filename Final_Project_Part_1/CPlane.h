@@ -41,7 +41,7 @@ public:
     virtual CPlane* Clone() const;
     virtual void OnTakeoff(int minutes) const;
 
-    static void SetNextSerial(int next);
+    static void SetNextSerial(int next) noexcept(false);
     static int GetNextSerial();
-    void SetSerialNumber_ForLoad(int id);
+    void SetSerialNumber_ForLoad(int id) noexcept(false);
 };

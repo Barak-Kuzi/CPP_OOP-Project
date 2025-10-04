@@ -14,6 +14,8 @@ private:
     void init(string destination, int flightNumber, int flightTimeMinutes, int flightDistanceKm);
 
 public:
+    static constexpr size_t MAX_DEST_LEN = 12;
+
     CFlightInfo() = delete;
 
     CFlightInfo(string destination, int flightNumber, int flightTimeMinutes, int flightDistanceKm);

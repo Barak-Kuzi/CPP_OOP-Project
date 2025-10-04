@@ -51,43 +51,62 @@ CCargo::~CCargo()
 }
 
 
-void CCargo::SetMaxKg(float v)
+void CCargo::SetMaxKg(float v) noexcept(false)
 {
-    if (!IsPositive(v) || currKg > v)
+    if (!IsPositive(v))
     {
-        return;
+        throw CCompStringException("Max KG must be positive");
     }
+        
+    if (currKg > v)
+    {
+        throw CCompStringException("Max KG cannot be less than current KG");
+    }
+        
     maxKg = v;
 }
 
-void CCargo::SetMaxVol(float v)
+void CCargo::SetMaxVol(float v) noexcept(false)
 {
-    if (!IsPositive(v) || currVol > v)
+    if (!IsPositive(v))
     {
-        return;
+        throw CCompStringException("Max Volume must be positive");
     }
+        
+    if (currVol > v)
+    {
+        throw CCompStringException("Max Volume cannot be less than current Volume");
+    }
+        
     maxVol = v;
 }
 
-void CCargo::SetCurrKg(float v)
+void CCargo::SetCurrKg(float v) noexcept(false)
 {
-    //if (!IsPositive(v) || (maxKg > 0.0f && v > maxKg))
-    //{
-    //    return;
-    //}
     if (!IsPositive(v))
+    {
         throw CCompStringException("Current KG must be positive");
+    }
     if (maxKg > 0.0f && v > maxKg)
+    {
         throw CCompStringException("Current KG exceeds max KG");
+    }
+        
     currKg = v;
 }
 
-void CCargo::SetCurrVol(float v)
+void CCargo::SetCurrVol(float v) noexcept(false)
 {
-    if (!IsPositive(v) || (maxVol > 0.0f && v > maxVol))
+    if (!IsPositive(v))
     {
-        return;
+        throw CCompStringException("Current Volume must be positive");
     }
+        
+    if (maxVol > 0.0f && v > maxVol)
+    {
+        throw CCompStringException("Current Volume exceeds max Volume");
+    }
+        
     currVol = v;
 }
 

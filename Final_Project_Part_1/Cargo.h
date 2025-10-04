@@ -31,10 +31,10 @@ public:
 
     void OnTakeoff(int minutes) const override;
 
-    void SetMaxKg(float v);
-    void SetMaxVol(float v);
-    void SetCurrKg(float v);
-    void SetCurrVol(float v);
+    void SetMaxKg(float v) noexcept(false);
+    void SetMaxVol(float v) noexcept(false);
+    void SetCurrKg(float v) noexcept(false);
+    void SetCurrVol(float v) noexcept(false);
     void SetCurrentLoad(int currKg, int maxKg, int currVol, int maxVol) noexcept(false);
 
     float GetMaxKg() const;

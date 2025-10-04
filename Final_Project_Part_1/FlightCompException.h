@@ -28,13 +28,13 @@ public:
     {
     }
     void Show() const override 
-    {
-        cout << "Limit error";
+    {   
+        cout << "Index Out of Bounds Exception";
         if (!context.empty())
         {
-            cout << " (" << context << ")";
+            cout << " in " << context;
         }
-        cout << ". Max allowed: " << maxVal << endl;
+        cout << ": maximum allowed index is " << maxVal << "." << endl;
     }
 };
 

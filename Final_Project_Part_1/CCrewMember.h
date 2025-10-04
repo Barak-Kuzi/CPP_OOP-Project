@@ -30,7 +30,7 @@ public:
     const CAddress& getAddress() const;
     int getAirTimeMinutes() const;
 
-    void setName(string name);
+    void setName(string name) noexcept(false);
     void setAddress(CAddress address);
 
     CCrewMember& operator=(const CCrewMember& other);

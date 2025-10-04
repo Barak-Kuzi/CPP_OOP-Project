@@ -27,7 +27,7 @@ public:
     ~CHost();
 
     HostType GetType() const;
-    void SetType(HostType t);
+    void SetType(HostType t) noexcept(false);
 
     bool Equals(const CCrewMember& other) const override;
 

@@ -108,22 +108,32 @@ int CPlane::GetNextSerial()
     return nextSerial;
 }
 
-void CPlane::SetNextSerial(int next)
+void CPlane::SetNextSerial(int next) noexcept(false)
 {
-    if (next > 0)
+    if (next <= 0)
     {
-        nextSerial = next;
+        throw CCompStringException("Next serial must be positive");
     }
+        
+    if (next <= nextSerial)
+    {
+        throw CCompStringException("Next serial must be greater than current sequence");
+    }
+        
+    nextSerial = next;
 }
 
-void CPlane::SetSerialNumber_ForLoad(int id)
+void CPlane::SetSerialNumber_ForLoad(int id) noexcept(false)
 {
-    if (id > 0)
+    if (id <= 0)
     {
-        serialNumber = id;
-        if (id >= nextSerial)
-        {
-            nextSerial = id + 1;
-        }
+        throw CCompStringException("Serial id must be positive");
     }
+
+    serialNumber = id;
+    if (id >= nextSerial)
+    {
+        nextSerial = id + 1;
+    }
+    
 }

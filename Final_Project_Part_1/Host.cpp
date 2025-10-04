@@ -1,4 +1,5 @@
 #include "Host.h"
+#include "FlightCompException.h"
 
 bool CHost::isValidHostType(HostType t)
 {
@@ -36,12 +37,14 @@ CHost::HostType CHost::GetType() const
     return type; 
 }
 
-void CHost::SetType(HostType t) 
+void CHost::SetType(HostType t) noexcept(false)
 {
-    if (isValidHostType(t))
+    if (!isValidHostType(t))
     {
-        this->type = t;
+        throw CCompStringException("Invalid host type");
     }
+        
+    this->type = t;
 }
 
 bool CHost::Equals(const CCrewMember& other) const

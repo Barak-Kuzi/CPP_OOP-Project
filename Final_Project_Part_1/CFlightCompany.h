@@ -39,7 +39,7 @@ public:
 
     string getCompanyName() const;
 
-    void SetName(string name);
+    void SetName(string name) noexcept(false);
 
     void Print(ostream& out) const;
 
@@ -57,7 +57,7 @@ public:
 
     CFlight* GetFlightByNum(int flightNumber);
 
-    CCrewMember* GetCrewMember(int index) const;
+    CCrewMember* GetCrewMember(int index) const noexcept(false);
 
     int GetCargoCount() const;
 

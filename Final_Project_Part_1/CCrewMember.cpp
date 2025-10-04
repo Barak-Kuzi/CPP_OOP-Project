@@ -58,12 +58,14 @@ int CCrewMember::getAirTimeMinutes() const
 }
 
 
-void CCrewMember::setName(string name)
+void CCrewMember::setName(string name) noexcept(false)
 {
-    if (!name.empty()) 
+    if (name.empty())
     {
-        this->name = name;
+        throw CCompStringException("Name cannot be empty");
     }
+        
+    this->name = name;
 }
 
 // The constructor already ensures a valid state.

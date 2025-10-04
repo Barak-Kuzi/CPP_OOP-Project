@@ -55,6 +55,11 @@ void CFlightInfo::SetDest(string destination) noexcept(false)
     {
         throw CCompStringException("Destination must not be empty");
     }
+
+    if (destination.length() > MAX_DEST_LEN)
+    {
+        throw CCompStringException("Destination is too long");
+    }
         
     this->destination = destination;
 }

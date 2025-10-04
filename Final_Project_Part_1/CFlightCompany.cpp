@@ -62,12 +62,14 @@ string CFlightCompany::getCompanyName() const
     return companyName;
 }
 
-void CFlightCompany::SetName(string name)
+void CFlightCompany::SetName(string name) noexcept(false)
 {
-    if (!name.empty())
+    if (name.empty())
     {
-        this->companyName = name;
+        throw CCompStringException("Company name must not be empty");
     }
+        
+    this->companyName = name;
 }
 
 void CFlightCompany::Print(ostream& out) const
@@ -218,11 +220,11 @@ ostream& operator<<(ostream& os, const CFlightCompany& comp) noexcept(false)
     return os;
 }
 
-CCrewMember* CFlightCompany::GetCrewMember(int index) const
+CCrewMember* CFlightCompany::GetCrewMember(int index) const noexcept(false)
 {
     if (index < 0 || index >= crewCount)
     {
-        return nullptr;
+        throw CCompLimitException(crewCount - 1, "CrewMember index");
     }
 
     return crews[index];
@@ -279,7 +281,7 @@ CPlane& CFlightCompany::operator[](int index) noexcept(false)
 {
     if (index < 0 || index >= planeCount)
     {
-        throw CCompLimitException(planeCount - 1, "plane index");
+        throw CCompLimitException(planeCount - 1, "plane index of the CFlightCompany");
     }
     return *planes[index];
 }
@@ -288,7 +290,7 @@ const CPlane& CFlightCompany::operator[](int index) const noexcept(false)
 {
     if (index < 0 || index >= planeCount)
     {
-        throw CCompLimitException(planeCount - 1, "plane index");
+        throw CCompLimitException(planeCount - 1, "plane index of the CFlightCompany");
     }
     return *planes[index];
 }

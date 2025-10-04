@@ -112,9 +112,17 @@ int main()
 	{
 		CCrewMember* pC2 = pDelta->GetCrewMember(0);
 		(*pC2) += -4;
-		CPlane p0 = (*pDelta)[9];
 	}
 	catch (const CFlightCompException& e) 
+	{
+		e.Show();
+	}
+
+	try
+	{
+		CPlane p0 = (*pDelta)[9];
+	}
+	catch (const CFlightCompException& e)
 	{
 		e.Show();
 	}
