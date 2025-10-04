@@ -120,24 +120,44 @@ CrewType CPlaneCrewFactory::GetCrewType(const CCrewMember* pCrew)
 
 int CPlaneCrewFactory::askInt(const char* prompt)
 {
-    cout << prompt << ' ' << flush;
-    int x; 
-    cin >> x;
-    return x;
+    int x;
+    while (true)
+    {
+        cout << prompt << ' ' << flush;
+        if (cin >> x)
+        {
+            return x;
+        }
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Enter an integer." << endl;
+    }
 }
 
 string CPlaneCrewFactory::askStr(const char* prompt)
-{ 
-    cout << prompt;
+{
     string s;
-    cin >> s;
-    return s;
+    cout << prompt;
+    while (true)
+    {
+        if (cin >> s)
+        {
+            return s;
+        }
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Enter a string: ";
+    }
 }
 
 CPlane* CPlaneCrewFactory::GetPlaneFromUser() noexcept(false)
 {
-    cout << "Plane type (0=Regular,1=Cargo): ";
-    int t; cin >> t;
+    int t;
+    do
+    {
+        t = askInt("Plane type (0=Regular,1=Cargo): ");
+    } while (t != 0 && t != 1);
+
     string model = askStr("Model: ");
     int seats = askInt("Seats: ");
 
@@ -155,16 +175,23 @@ CPlane* CPlaneCrewFactory::GetPlaneFromUser() noexcept(false)
 
 CCrewMember* CPlaneCrewFactory::GetCrewFromUser() noexcept(false)
 {
-    cout << "Crew type (0=Host,1=Pilot): " << flush;
-    int t; 
-    cin >> t;
+    int t;
+    do
+    {
+        t = askInt("Crew type (0=Host,1=Pilot): ");
+    } while (t != 0 && t != 1);
+
     string name = askStr("Name: ");
     int minutes = askInt("Air minutes: ");
 
     if (t == 0) 
     {
-        cout << "Host type (0=Regular,1=Super,2=Calcelan): ";
-        int ht; cin >> ht;
+        int ht;
+        do 
+        { 
+            ht = askInt("Host type (0=Regular,1=Super,2=Calcelan): ");
+        } while (ht < 0 || ht > 2);
+
         CHost::HostType e = CHost::eRegular;
         if (ht == 1)
         {
@@ -179,26 +206,39 @@ CCrewMember* CPlaneCrewFactory::GetCrewFromUser() noexcept(false)
     }
     else if (t == 1) 
     {
-        cout << "Has address? (0/1): ";
-        int has; 
-        cin >> has;
+        int hasAddr;
+        do 
+        { 
+            hasAddr = askInt("Has address? (0=No,1=Yes): ");
+        } while (hasAddr != 0 && hasAddr != 1);
 
         CAddress addr(0, "", "Tel Aviv");
         const CAddress* pAddr = nullptr;
 
-        if (has) 
+        if (hasAddr)
         {
             int house; 
             string street;
             string city;
-            cout << "house street city: ";
-            cin >> house >> street >> city;
+            cout << "Enter house (int) street (string) city (string): ";
+
+            while (!(cin >> house >> street >> city))
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input.";
+            }
+
             addr = CAddress(house, street.c_str(), city.c_str());
             pAddr = &addr;
         }
 
-        cout << "Is captain? (0/1): ";
-        int cap; cin >> cap;
+        int cap;
+        do 
+        { 
+            cap = askInt("Is captain? (0=No,1=Yes): ");
+        } while (cap != 0 && cap != 1);
+
         return new CPilot(name, cap != 0, pAddr, minutes);
     }
     throw CCompStringException("Unknown crew type");
@@ -206,9 +246,11 @@ CCrewMember* CPlaneCrewFactory::GetCrewFromUser() noexcept(false)
 
 void CPlaneCrewFactory::GetCompanyDataFromUser(CFlightCompany& comp)
 {
-    cout << "Add plane (0/1)? " << flush;
     int p;
-    cin >> p;
+    do
+    {
+        p = askInt("Add plane (0=No,1=Yes)? ");
+    } while (p != 0 && p != 1);
 
     if (p)
     {
@@ -241,9 +283,11 @@ void CPlaneCrewFactory::GetCompanyDataFromUser(CFlightCompany& comp)
         }
     }
 
-    cout << "Add crew (0/1)? " << flush;
     int c;
-    cin >> c;
+    do
+    {
+        c = askInt("Add crew (0=No,1=Yes)? ");
+    } while (c != 0 && c != 1);
 
     if (c)
     {
