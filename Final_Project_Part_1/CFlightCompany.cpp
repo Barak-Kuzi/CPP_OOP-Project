@@ -302,7 +302,8 @@ const CPlane& CFlightCompany::operator[](int index) const noexcept(false)
 
 void CFlightCompany::SaveToFile(const char* filename) const noexcept(false)
 {
-    ofstream out(filename);
+    ofstream out;
+    out.open(filename, ios::trunc);
     if (!out)
     {
         throw CCompFileException(filename, "open for write");
@@ -337,14 +338,7 @@ void CFlightCompany::SaveToFile(const char* filename) const noexcept(false)
 
     out << planeCount << "\n";
 
-    int lastId = 0;
-    for (int i = 0; i < planeCount; ++i)
-    {
-        if (planes[i] && planes[i]->getSerialNumber() > lastId)
-        {
-            lastId = planes[i]->getSerialNumber();
-        }
-    }
+    int lastId = CPlane::GetNextSerial();
 
     for (int i = 0; i < planeCount; ++i)
     {
@@ -407,6 +401,7 @@ void CFlightCompany::SaveToFile(const char* filename) const noexcept(false)
             }
         }
     }
+    out.close();
 }
 
 const int CFlightCompany::GetCrewCount() const
@@ -417,7 +412,8 @@ const int CFlightCompany::GetCrewCount() const
 CFlightCompany::CFlightCompany(const char* filename, int) noexcept(false)
     : CFlightCompany(string(filename))
 {
-    ifstream in(filename);
+    ifstream in;
+    in.open(filename);
     if (!in)
     {
         throw CCompFileException(filename, "open for read");
@@ -606,4 +602,5 @@ CFlightCompany::CFlightCompany(const char* filename, int) noexcept(false)
             e.Show();
         }
     }
+    in.close();
 }

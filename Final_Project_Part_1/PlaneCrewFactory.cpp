@@ -81,8 +81,10 @@ CPlane* CPlaneCrewFactory::GetPlaneFromFile(ifstream& inFile) noexcept(false)
         int lastID, id, seats; string model;
         inFile >> lastID >> id >> model >> seats;
 
-        if (lastID + 1 > CPlane::GetNextSerial())
-            CPlane::SetNextSerial(lastID + 1);
+        if (lastID > CPlane::GetNextSerial())
+        {
+            CPlane::SetNextSerial(lastID);
+        }
 
         CPlane* p = new CPlane(seats, model);
         p->SetSerialNumber_ForLoad(id);
